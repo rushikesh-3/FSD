@@ -1,0 +1,1 @@
+Git merge conflict practice
