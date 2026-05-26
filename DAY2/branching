@@ -1,0 +1,27 @@
+A branch is:an independent line of development.
+
+It allows developers to:
+
+work safely
+test features
+experiment
+fix bugs
+collaborate
+
+WITHOUT affecting the main project.
+
+HEAD means:current active branch / current working position
+
+
+
+Creating Branch:
+    git branch GitNewBranch
+
+-> This only CREATES branch.
+-> It does NOT switch branch.
+
+Branch Switching :
+    git checkout GitNewBranch
+    git switch GitNewBranch
+    git checkout -b GitNewBranch
+    git switch -c GitNewBranch
