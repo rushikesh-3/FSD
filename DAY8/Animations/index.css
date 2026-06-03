@@ -1,0 +1,134 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#f2f2f2;
+}
+
+.title{
+    text-align:center;
+    margin:20px;
+    padding:10px;
+    background:tomato;
+    font-size:45px;
+}
+
+.main{
+    width:70%;
+    margin:auto;
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:30px 0;
+}
+
+.row h3{
+    font-size:22px;
+}
+
+.box{
+    width:100px;
+    height:100px;
+    background:skyblue;
+    border:2px solid black;
+    border-radius:10px;
+}
+
+.bounce:hover{
+    animation:bounce 1s infinite;
+}
+
+@keyframes bounce{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-50px);
+    }
+}
+
+.rotate:hover{
+    animation:rotate 2s infinite linear;
+}
+
+@keyframes rotate{
+    from{
+        transform:rotate(0deg);
+    }
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.scale:hover{
+    animation:scaleBox 1s infinite;
+}
+
+@keyframes scaleBox{
+    50%{
+        transform:scale(1.5);
+    }
+}
+
+.fade:hover{
+    animation:fadeIn 2s infinite;
+}
+
+@keyframes fadeIn{
+    0%{
+        opacity:0;
+    }
+    100%{
+        opacity:1;
+    }
+}
+
+.slide:hover{
+    animation:slideRight 2s infinite;
+}
+
+@keyframes slideRight{
+    50%{
+        transform:translateX(200px);
+    }
+}
+
+.pulse:hover{
+    animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+    50%{
+        transform:scale(1.2);
+        background:red;
+    }
+}
+
+.shake:hover{
+    animation:shake 0.5s infinite;
+}
+
+@keyframes shake{
+    0%{
+        transform:translateX(0);
+    }
+    25%{
+        transform:translateX(-10px);
+    }
+    50%{
+        transform:translateX(10px);
+    }
+    75%{
+        transform:translateX(-10px);
+    }
+    100%{
+        transform:translateX(0);
+    }
+}
+

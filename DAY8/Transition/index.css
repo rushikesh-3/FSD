@@ -1,0 +1,106 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.main{
+    display:flex;
+    justify-content: center;
+}
+
+.box1,.box2,.box3,.box4,.box5,.box6,.box7{
+    height: 100px;
+    width: 100px;
+    margin: 20px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+.title{
+    text-align: center;
+    color: rgb(0, 0, 0);
+    font-size: 50px;
+    margin: 20px;
+    background-color: rgb(252, 109, 109);
+    transition: background 2s ;
+}
+
+.title:hover{
+    background-color: aqua;
+}
+
+.box_1,.box_2,.box_3,.box_4,.box_5,.box_6,.box_7{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.box1{
+    transition: background 2s;
+}
+
+.box1:hover{
+    background-color: aqua;
+}
+
+.color-tran{
+    margin: 50px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    font-style: italic;
+    margin-left:20px;
+}
+
+.box2{
+    transition: width 2s, 2s;
+}
+
+.box2:hover{
+    width: 200px;
+}
+
+.box3{
+    transition: 2s ease 1ms;
+}
+
+.box3:hover{
+    background-color: aqua;
+    transform: translateX(220px);
+}
+
+.box4{
+    transition: 2s linear 1ms;
+}
+
+.box4:hover{
+    background-color: aqua;
+    transform: translateX(220px);
+}
+
+.box5{
+    transition: 2s ease-in 1ms;
+}
+
+.box5:hover{
+    background-color: aqua;
+    transform: translateX(220px);
+}
+
+
+.box6{
+    transition: 2s ease-out 1ms;
+}
+
+.box6:hover{
+    background-color: aqua;
+    transform: translateX(220px);
+}
+
+
+.box7{
+    transition: 2s ease-in-out 1ms;
+}
+
+.box7:hover{
+    background-color: aqua;
+    transform: translateX(220px);
+}
