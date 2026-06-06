@@ -1,0 +1,234 @@
+
+body{
+    background: linear-gradient(
+        135deg,
+        #eef2ff,
+        #dbeafe
+    );
+
+    min-height: 100vh;
+
+    font-family: 'Segoe UI', sans-serif;
+}
+
+
+.dashboard-header{
+    margin-top: 40px;
+    margin-bottom: 40px;
+
+    animation: fadeUp 1s ease;
+}
+
+.dashboard-header h1{
+    font-size: 3rem;
+
+    font-weight: 700;
+
+    color: #0d6efd;
+
+    text-shadow:
+        2px 2px 10px rgba(13,110,253,0.2);
+}
+
+.dashboard-header p{
+    font-size: 1.2rem;
+
+    color: #6c757d;
+}
+
+
+
+.stats-section{
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,0.1);
+
+    animation: fadeUp 1.2s ease;
+}
+
+
+
+.card{
+    border: none;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+
+    opacity: 0;
+
+    transition: all 0.3s ease;
+
+    animation: cardFadeUp 0.8s ease forwards;
+}
+
+
+.col-md-3:nth-child(1) .card{
+    animation-delay: 0.1s;
+}
+
+.col-md-3:nth-child(2) .card{
+    animation-delay: 0.3s;
+}
+
+.col-md-3:nth-child(3) .card{
+    animation-delay: 0.5s;
+}
+
+.col-md-3:nth-child(4) .card{
+    animation-delay: 0.7s;
+}
+
+
+
+.card:hover{
+    transform:
+        translateY(-10px)
+        scale(1.03);
+
+    box-shadow:
+        0 15px 35px rgba(0,0,0,0.25);
+}
+
+
+.card::before{
+    content: "";
+
+    display: block;
+
+    height: 5px;
+
+    background:
+        rgba(255,255,255,0.4);
+}
+
+
+
+.card-header{
+    text-align: center;
+
+    font-size: 1.1rem;
+
+    font-weight: 600;
+}
+
+
+.card-title{
+    margin-top: 10px;
+
+    text-align: center;
+}
+
+
+
+.input-group{
+    margin-top: 20px;
+}
+
+.input-group .form-control{
+    border-radius: 10px 0 0 10px;
+}
+
+.input-group .btn{
+    border-radius: 0 10px 10px 0;
+
+    transition: all 0.3s ease;
+}
+
+.input-group .btn:hover{
+    transform: scale(1.05);
+}
+
+
+.table{
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    margin-top: 20px;
+}
+
+.table th{
+    text-align: center;
+
+    vertical-align: middle;
+}
+
+.table td{
+    text-align: center;
+
+    vertical-align: middle;
+}
+
+.table tbody tr{
+    transition: all 0.3s ease;
+}
+
+.table tbody tr:hover{
+    background-color: #f1f5ff;
+
+    transform: scale(1.01);
+}
+
+
+.badge{
+    padding: 8px 12px;
+
+    font-size: 0.9rem;
+
+    border-radius: 20px;
+}
+
+
+
+.alert{
+    border-radius: 15px;
+
+    font-size: 1rem;
+}
+
+
+
+footer{
+    margin-top: 50px;
+
+    font-size: 0.95rem;
+
+    letter-spacing: 1px;
+}
+
+
+
+@keyframes fadeUp{
+
+    from{
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+@keyframes cardFadeUp{
+
+    from{
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}

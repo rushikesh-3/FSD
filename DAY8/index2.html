@@ -1,0 +1,2317 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML & CSS — Quick Revision Notes</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #0d0d1a;
+        color: #e2e2f0;
+        line-height: 1.6;
+      }
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0d0d1a;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #e17055;
+        border-radius: 3px;
+      }
+
+      /* HEADER */
+      .hdr {
+        background: linear-gradient(135deg, #1a0d1a 0%, #1a1a0d 100%);
+        padding: 1.4rem 1.5rem 1rem;
+        border-bottom: 1px solid #2a1a2a;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .hdr-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 0.5rem;
+      }
+      .hdr h1 {
+        font-size: 20px;
+        font-weight: 800;
+        color: #fff;
+      }
+      .hdr p {
+        font-size: 12px;
+        color: #777;
+        margin-bottom: 0.7rem;
+      }
+      .pill-bar {
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+      }
+      .pill {
+        padding: 5px 12px;
+        border-radius: 14px;
+        border: 1px solid #2a1a2a;
+        background: #13100d;
+        color: #888;
+        font-size: 11px;
+        cursor: pointer;
+        transition: all 0.15s;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+      .pill:hover,
+      .pill.on {
+        background: #e17055;
+        color: #fff;
+        border-color: #e17055;
+      }
+      .pill.css-pill:hover,
+      .pill.css-pill.on {
+        background: #6c5ce7;
+        border-color: #6c5ce7;
+      }
+
+      /* LAYOUT */
+      .layout {
+        display: flex;
+        min-height: calc(100vh - 115px);
+      }
+      .sidebar {
+        width: 195px;
+        flex-shrink: 0;
+        background: #0a0a10;
+        border-right: 1px solid #1a1020;
+        padding: 0.8rem 0.6rem;
+        position: sticky;
+        top: 115px;
+        height: calc(100vh - 115px);
+        overflow-y: auto;
+      }
+      .si-label {
+        font-size: 10px;
+        font-weight: 700;
+        color: #444;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        padding: 0.5rem 0.5rem 0.2rem;
+        margin-top: 0.4rem;
+      }
+      .sn {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 8px;
+        border-radius: 7px;
+        cursor: pointer;
+        font-size: 11.5px;
+        color: #777;
+        transition: all 0.15s;
+        margin-bottom: 2px;
+      }
+      .sn:hover {
+        background: #15101a;
+        color: #bbb;
+      }
+      .sn.on {
+        background: #1e1030;
+        color: #c9a0f5;
+        font-weight: 600;
+      }
+      .sn.html-on {
+        background: #1e1800;
+        color: #f9e2af;
+        font-weight: 600;
+      }
+
+      /* MAIN */
+      .main {
+        flex: 1;
+        padding: 1.2rem 1.4rem;
+        overflow-y: auto;
+        max-width: 900px;
+      }
+      .sec {
+        margin-bottom: 2.5rem;
+        scroll-margin-top: 120px;
+      }
+
+      /* SECTION HEADER */
+      .sec-hdr {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0.9rem 1.2rem;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+      }
+      .sec-hdr.html-hdr {
+        background: #1a1200;
+        border: 1px solid #3a2800;
+      }
+      .sec-hdr.css-hdr {
+        background: #100a1e;
+        border: 1px solid #2a1a4a;
+      }
+      .sec-icon {
+        font-size: 22px;
+      }
+      .sec-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .sec-sub {
+        font-size: 11px;
+        color: #666;
+        margin-top: 1px;
+      }
+
+      /* CARDS */
+      .cards {
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+      }
+      .mc {
+        background: #0e0e1a;
+        border: 1px solid #1e1e30;
+        border-radius: 11px;
+        overflow: hidden;
+      }
+      .mc-hdr {
+        padding: 0.65rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        user-select: none;
+      }
+      .mc-hdr:hover {
+        background: #14142a;
+      }
+      .mc.html-mc .mc-hdr {
+        background: #120e00;
+        border-bottom: 1px solid #1e1800;
+      }
+      .mc.html-mc .mc-hdr:hover {
+        background: #1a1500;
+      }
+      .mc.html-mc.open {
+        border-color: #5a3800;
+      }
+      .mc.css-mc .mc-hdr {
+        background: #0e0a1e;
+        border-bottom: 1px solid #1a1030;
+      }
+      .mc.css-mc .mc-hdr:hover {
+        background: #140e28;
+      }
+      .mc.css-mc.open {
+        border-color: #3a2a6a;
+      }
+      .mc-tag {
+        font-family: "Courier New", monospace;
+        font-size: 13px;
+        font-weight: 700;
+        flex: 1;
+      }
+      .mc.html-mc .mc-tag {
+        color: #f9e2af;
+      }
+      .mc.css-mc .mc-tag {
+        color: #c9a0f5;
+      }
+      .mc-desc-short {
+        font-size: 11px;
+        color: #555;
+        flex: 2;
+        padding-top: 2px;
+      }
+      .badges {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+        flex-shrink: 0;
+      }
+      .badge {
+        font-size: 10px;
+        padding: 2px 7px;
+        border-radius: 6px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .b-cat {
+        background: #1e1800;
+        color: #f9e2af;
+        border: 1px solid #3a2800;
+      }
+      .b-css {
+        background: #1a0e30;
+        color: #c9a0f5;
+        border: 1px solid #2e1a50;
+      }
+      .b-imp {
+        background: #1e2a0e;
+        color: #a6e3a1;
+        border: 1px solid #2a4a1a;
+      }
+      .b-hot {
+        background: #2e0e0e;
+        color: #f38ba8;
+        border: 1px solid #4a1a1a;
+      }
+      .b-new {
+        background: #0e1e2e;
+        color: #89b4fa;
+        border: 1px solid #1a2e4a;
+      }
+      .mc-chv {
+        font-size: 11px;
+        color: #444;
+        transition: transform 0.2s;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .mc.open .mc-chv {
+        transform: rotate(180deg);
+      }
+      .mc-body {
+        display: none;
+        padding: 0.9rem 1rem;
+      }
+      .mc.open .mc-body {
+        display: block;
+      }
+      .mc-full-desc {
+        font-size: 12.5px;
+        color: #bbb;
+        margin-bottom: 0.8rem;
+        line-height: 1.7;
+      }
+      .mc-full-desc b {
+        color: #e2e2f0;
+      }
+      .mc-full-desc code {
+        font-family: "Courier New", monospace;
+        background: #0a0a15;
+        padding: 1px 5px;
+        border-radius: 4px;
+        font-size: 11px;
+        color: #a6e3a1;
+      }
+
+      /* WHEN BOX */
+      .when-box {
+        background: #0a140a;
+        border: 1px solid #1a3a1a;
+        border-radius: 8px;
+        padding: 0.6rem 0.9rem;
+        margin-bottom: 0.7rem;
+      }
+      .when-box h5 {
+        font-size: 10px;
+        font-weight: 700;
+        color: #a6e3a1;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 0.4rem;
+      }
+      .when-box ul {
+        list-style: none;
+      }
+      .when-box ul li {
+        font-size: 11.5px;
+        color: #aaa;
+        padding-left: 14px;
+        position: relative;
+        line-height: 1.6;
+        margin-bottom: 1px;
+      }
+      .when-box ul li::before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        color: #a6e3a1;
+        font-size: 10px;
+        top: 3px;
+      }
+      .when-box ul li b {
+        color: #e2e2f0;
+      }
+
+      /* SYNTAX BOX */
+      .syntax-label {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 0.3rem;
+      }
+      .html-mc .syntax-label {
+        color: #f9e2af;
+      }
+      .css-mc .syntax-label {
+        color: #c9a0f5;
+      }
+      .code {
+        font-family: "Courier New", monospace;
+        font-size: 11.5px;
+        background: #060610;
+        color: #cdd6f4;
+        padding: 10px 12px;
+        border-radius: 8px;
+        line-height: 1.9;
+        white-space: pre-wrap;
+        word-break: break-all;
+        margin-bottom: 0.7rem;
+        border: 1px solid #15152a;
+      }
+
+      /* ATTRIBUTES TABLE */
+      .attr-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 0.7rem;
+        font-size: 11.5px;
+      }
+      .attr-table th {
+        background: #111120;
+        color: #777;
+        font-weight: 600;
+        padding: 6px 9px;
+        text-align: left;
+        border: 1px solid #1e1e30;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .attr-table td {
+        padding: 6px 9px;
+        border: 1px solid #15152a;
+        color: #ccc;
+        vertical-align: top;
+        line-height: 1.5;
+      }
+      .attr-table tr:nth-child(even) td {
+        background: #0a0a18;
+      }
+      .attr-table td:first-child {
+        font-family: "Courier New", monospace;
+        color: #a6e3a1;
+        font-size: 11px;
+        white-space: nowrap;
+      }
+      .attr-table td:nth-child(2) {
+        color: #89b4fa;
+        font-family: "Courier New", monospace;
+        font-size: 11px;
+      }
+
+      /* TIP */
+      .tip {
+        border-left: 2px solid #f9e2af;
+        padding: 6px 10px;
+        font-size: 11.5px;
+        color: #888;
+        margin-bottom: 0.5rem;
+        border-radius: 0 7px 7px 0;
+        background: #12100a;
+        line-height: 1.6;
+      }
+      .css-mc .tip {
+        border-left-color: #c9a0f5;
+        background: #0e0a18;
+      }
+      .tip b {
+        color: #e2e2f0;
+      }
+
+      /* VALUES GRID */
+      .val-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 6px;
+        margin-bottom: 0.7rem;
+      }
+      .val-item {
+        background: #0a0a18;
+        border: 1px solid #1a1a2e;
+        border-radius: 7px;
+        padding: 6px 9px;
+      }
+      .val-name {
+        font-family: "Courier New", monospace;
+        font-size: 11px;
+        color: #89b4fa;
+        margin-bottom: 2px;
+        font-weight: 600;
+      }
+      .val-desc {
+        font-size: 11px;
+        color: #777;
+        line-height: 1.4;
+      }
+
+      /* VISUAL DEMO */
+      .demo-box {
+        background: #0a0a14;
+        border: 1px solid #1e1e30;
+        border-radius: 8px;
+        padding: 0.8rem;
+        margin-bottom: 0.7rem;
+        overflow: hidden;
+      }
+      .demo-label {
+        font-size: 10px;
+        color: #555;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+
+      /* GROUP DIVIDER */
+      .grp-divider {
+        font-size: 10px;
+        font-weight: 700;
+        color: #534ab7;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin: 0.9rem 0 0.4rem;
+        padding-left: 2px;
+        border-left: 2px solid #534ab7;
+        padding-left: 7px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hdr">
+      <div class="hdr-row">
+        <span style="font-size: 28px">🌐</span>
+        <div>
+          <h1>HTML & CSS — Quick Revision Notes</h1>
+          <p>
+            All tags, attributes, selectors, properties, and layout systems.
+            Click any card to expand.
+          </p>
+        </div>
+      </div>
+      <div class="pill-bar" id="pills"></div>
+    </div>
+
+    <div class="layout">
+      <div class="sidebar" id="sidebar"></div>
+      <div class="main" id="main"></div>
+    </div>
+
+    <script>
+      const DATA = [
+        // ─────────────── HTML SECTIONS ───────────────
+        {
+          id: "html_structure",
+          type: "html",
+          icon: "🏗️",
+          title: "HTML Document Structure",
+          sub: "Boilerplate, metadata, and document skeleton",
+          items: [
+            {
+              tag: "HTML Boilerplate",
+              short: "Full document skeleton",
+              imp: "🔴 Must",
+              cat: "Structure",
+              desc: "Every HTML document starts with this skeleton. <b>DOCTYPE</b> tells the browser this is HTML5. <b>lang</b> helps accessibility and SEO. <b>charset UTF-8</b> supports all characters including emojis.",
+              when: [
+                "Starting any new HTML page",
+                "Required for valid HTML5 document",
+                "Base for every web project",
+              ],
+              code: `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Page description for SEO">
+  <title>Page Title</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.ico">
+</head>
+<body>
+  <!-- Content goes here -->
+  <script src="script.js"><\/script>
+</body>
+</html>`,
+              tip: "Put <script> at end of body (not head) so HTML loads before JS runs. Or use defer attribute.",
+            },
+            {
+              tag: "<head> Meta Tags",
+              short: "SEO, viewport, charset",
+              imp: "🔴 Must",
+              cat: "Meta",
+              desc: "Meta tags provide metadata about the page. <b>viewport</b> is essential for responsive design. <b>description</b> appears in Google search results. <b>og:</b> tags control social media previews.",
+              when: [
+                "Every page needs viewport and charset",
+                "SEO requires description and title",
+                "Social sharing needs og: tags",
+              ],
+              code: `<head>
+  <!-- Character encoding -->
+  <meta charset="UTF-8">
+
+  <!-- Responsive design — CRITICAL -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <meta name="description" content="My page description">
+  <meta name="keywords" content="html, css, web">
+  <meta name="author" content="Your Name">
+
+  <!-- Social media (Open Graph) -->
+  <meta property="og:title" content="Page Title">
+  <meta property="og:description" content="Description">
+  <meta property="og:image" content="image.jpg">
+
+  <!-- Redirect after 5 seconds -->
+  <meta http-equiv="refresh" content="5; url=https://example.com">
+
+  <title>My Page</title>
+</head>`,
+              tip: "viewport meta tag is mandatory for mobile-responsive sites. Without it, mobile browsers zoom out and show desktop layout.",
+            },
+          ],
+        },
+        {
+          id: "html_semantic",
+          type: "html",
+          icon: "🏛️",
+          title: "Semantic HTML Tags",
+          sub: "Meaningful structure tags that describe content purpose",
+          items: [
+            {
+              tag: "Structural Semantics",
+              short: "header, nav, main, section, article, aside, footer",
+              imp: "🔴 Must",
+              cat: "Semantic",
+              desc: "Semantic tags give meaning to structure. Screen readers, search engines, and developers understand the page layout better. <b>Replace &lt;div&gt; soup with semantic tags.</b>",
+              when: [
+                "Use instead of meaningless div wrappers",
+                "For accessibility and SEO",
+                "Any structured webpage layout",
+              ],
+              code: `<body>
+  <header>           <!-- Top of page: logo, nav -->
+    <nav>            <!-- Navigation links -->
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>             <!-- Primary page content (only ONE per page) -->
+    <section>        <!-- Thematic grouping with heading -->
+      <h2>About Us</h2>
+      <article>      <!-- Self-contained content (blog post, card) -->
+        <h3>Post Title</h3>
+        <p>Content...</p>
+      </article>
+    </section>
+
+    <aside>          <!-- Sidebar, related content -->
+      <p>Related links...</p>
+    </aside>
+  </main>
+
+  <footer>           <!-- Bottom: copyright, links -->
+    <p>&copy; 2024</p>
+  </footer>
+</body>`,
+              tip: "Rule: <article> = can be taken out of context and still make sense (blog post, product card). <section> = thematic grouping that needs context.",
+            },
+            {
+              tag: "Text Semantics",
+              short:
+                "h1-h6, p, strong, em, mark, abbr, time, code, pre, blockquote",
+              imp: "🔴 Must",
+              cat: "Semantic",
+              desc: "Inline semantic tags give meaning to text. <b>strong</b> = important (bold). <b>em</b> = emphasis (italic). These are semantic — not just visual styling.",
+              when: [
+                "Headings: only one h1 per page, use h2-h6 in order",
+                "strong/em for meaningful emphasis",
+                "code/pre for displaying code",
+              ],
+              code: `<h1>Main Page Title</h1>       <!-- Only ONE h1 per page -->
+<h2>Section Title</h2>
+<h3>Subsection</h3>             <!-- h1 → h2 → h3, don't skip -->
+
+<p>Normal paragraph text.</p>
+
+<strong>Important text</strong>  <!-- Bold + semantic importance -->
+<b>Bold without importance</b>   <!-- Just visual bold -->
+<em>Emphasized text</em>         <!-- Italic + semantic emphasis -->
+<i>Italic without emphasis</i>   <!-- Just visual italic -->
+
+<mark>Highlighted text</mark>
+<small>Fine print / legal</small>
+<del>Deleted text</del>  <ins>Inserted text</ins>
+<sup>superscript</sup>   <sub>subscript</sub>
+
+<abbr title="HyperText Markup Language">HTML</abbr>
+<time datetime="2024-01-15">January 15, 2024</time>
+
+<code>inline code</code>
+<pre><code>
+  // multi-line code block
+  function hello() {}
+</code></pre>
+
+<blockquote cite="https://source.com">
+  "Famous quote here"
+</blockquote>`,
+              tip: "Heading hierarchy matters for SEO and accessibility. Never skip levels (h1 → h3). h1 = page title, h2 = main sections, h3 = subsections.",
+            },
+            {
+              tag: "<figure> / <figcaption> / <picture>",
+              short: "Images with captions, responsive images",
+              imp: "🟡 High",
+              cat: "Media",
+              desc: "<b>figure</b> wraps self-contained content (images, charts, code). <b>picture</b> serves different image sizes/formats based on screen.",
+              when: [
+                "Image with a caption below it",
+                "Responsive images for different screen sizes",
+                "WebP with JPEG fallback",
+              ],
+              code: `<!-- Figure with caption -->
+<figure>
+  <img src="chart.png" alt="Sales chart for Q4">
+  <figcaption>Fig 1: Q4 Sales increased by 40%</figcaption>
+</figure>
+
+<!-- Responsive images with <picture> -->
+<picture>
+  <source srcset="image.webp" type="image/webp">
+  <source srcset="image-large.jpg" media="(min-width: 800px)">
+  <source srcset="image-small.jpg" media="(max-width: 799px)">
+  <img src="image.jpg" alt="Description" loading="lazy">
+</picture>
+
+<!-- Responsive img with srcset -->
+<img
+  srcset="img-400.jpg 400w, img-800.jpg 800w, img-1200.jpg 1200w"
+  sizes="(max-width: 600px) 400px, (max-width: 1200px) 800px, 1200px"
+  src="img-800.jpg"
+  alt="Responsive image"
+  loading="lazy"
+  width="800" height="600">`,
+              tip: "Always include alt text for accessibility. loading='lazy' defers off-screen images. Always specify width and height to prevent layout shift.",
+            },
+          ],
+        },
+        {
+          id: "html_forms",
+          type: "html",
+          icon: "📝",
+          title: "HTML Forms",
+          sub: "Form elements, input types, validation attributes",
+          items: [
+            {
+              tag: "Form Structure & Attributes",
+              short: "form, action, method, enctype",
+              imp: "🔴 Must",
+              cat: "Forms",
+              desc: "<b>action</b> = where to submit. <b>method</b> = GET (data in URL) or POST (data in body). <b>enctype</b> multipart needed for file uploads.",
+              when: [
+                "Any user input collection",
+                "Login/signup forms",
+                "File upload forms",
+              ],
+              code: `<form
+  action="/submit"
+  method="POST"
+  enctype="multipart/form-data"  <!-- required for file uploads -->
+  novalidate                      <!-- disable browser validation -->
+  autocomplete="off">
+
+  <!-- Label + Input pairing — ALWAYS pair them -->
+  <label for="email">Email Address</label>
+  <input type="email" id="email" name="email" required>
+
+  <button type="submit">Submit</button>
+  <button type="reset">Clear</button>
+  <button type="button" onclick="doSomething()">Click</button>
+</form>`,
+              tip: "Always use <label for='id'> paired with input id. This makes clicking the label focus the input — accessibility + usability.",
+            },
+            {
+              tag: "Input Types — All Variants",
+              short:
+                "text, email, password, number, date, checkbox, radio, file, range, color...",
+              imp: "🔴 Must",
+              cat: "Forms",
+              desc: "HTML5 introduced many input types that provide built-in validation and appropriate mobile keyboards. <b>type is the most important attribute.</b>",
+              when: [
+                "email type: validates email format automatically",
+                "number type: shows numeric keyboard on mobile",
+                "date type: shows date picker",
+                "file type: file upload button",
+              ],
+              code: `<!-- Text inputs -->
+<input type="text"     placeholder="Enter name" maxlength="50">
+<input type="email"    placeholder="user@example.com">
+<input type="password" minlength="8">
+<input type="number"   min="0" max="100" step="5" value="50">
+<input type="tel"      pattern="[0-9]{10}">
+<input type="url"      placeholder="https://example.com">
+<input type="search"   placeholder="Search...">
+
+<!-- Date/Time -->
+<input type="date"          value="2024-01-15">
+<input type="time"          value="13:30">
+<input type="datetime-local">
+<input type="month">
+<input type="week">
+
+<!-- Selection -->
+<input type="checkbox" id="agree" checked>
+<input type="radio"    name="gender" value="male">
+<input type="radio"    name="gender" value="female">
+<input type="range"    min="0" max="100" value="50" step="10">
+<input type="color"    value="#ff5733">
+
+<!-- File & Hidden -->
+<input type="file"   accept=".pdf,.jpg" multiple>
+<input type="hidden" name="csrf" value="token123">
+
+<!-- Buttons -->
+<input type="submit" value="Send">
+<input type="reset"  value="Clear">
+<input type="image"  src="btn.png" alt="Submit">`,
+              tip: "Mobile keyboards change based on input type. type='email' shows @ key. type='tel' shows numpad. type='number' shows number keyboard. Always use correct type!",
+            },
+            {
+              tag: "Form Validation Attributes",
+              short: "required, min, max, pattern, minlength, maxlength",
+              imp: "🔴 Must",
+              cat: "Forms",
+              desc: "Built-in HTML5 validation — no JavaScript needed for basic checks. Browser shows error messages automatically.",
+              when: [
+                "Required field validation",
+                "Length constraints",
+                "Pattern matching (phone, custom format)",
+                "Numeric range validation",
+              ],
+              code: `<input type="text"
+  required                       <!-- must be filled -->
+  minlength="3"                  <!-- minimum 3 chars -->
+  maxlength="50"                 <!-- maximum 50 chars -->
+  placeholder="Enter name"
+  autocomplete="name"            <!-- browser autofill hint -->
+  autofocus>                     <!-- auto-focus on page load -->
+
+<input type="number"
+  min="18"
+  max="120"
+  step="1">
+
+<input type="tel"
+  pattern="[0-9]{10}"            <!-- must match regex -->
+  title="10 digit phone number"> <!-- shown on invalid -->
+
+<input type="email"
+  multiple>                      <!-- allow comma-separated emails -->
+
+<!-- Textarea -->
+<textarea
+  rows="4" cols="50"
+  minlength="10"
+  maxlength="500"
+  placeholder="Enter your message...">
+</textarea>
+
+<!-- Select dropdown -->
+<select name="country" required>
+  <option value="">-- Select Country --</option>
+  <option value="in" selected>India</option>
+  <option value="us">United States</option>
+  <optgroup label="Asia">
+    <option value="jp">Japan</option>
+    <option value="cn">China</option>
+  </optgroup>
+</select>
+
+<!-- Datalist (autocomplete suggestions) -->
+<input list="browsers" name="browser">
+<datalist id="browsers">
+  <option value="Chrome">
+  <option value="Firefox">
+  <option value="Safari">
+</datalist>`,
+              tip: "pattern attribute uses JavaScript regex. title shows as the error message when pattern doesn't match. autocomplete hints help browsers fill forms faster.",
+            },
+            {
+              tag: "<table> — Complete Reference",
+              short: "table, thead, tbody, tfoot, tr, th, td",
+              imp: "🟡 High",
+              cat: "Tables",
+              desc: "Tables are for tabular data only — never for layout. Use thead/tbody/tfoot for semantics and easier CSS styling.",
+              when: [
+                "Displaying rows and columns of data",
+                "Comparison charts",
+                "Financial/statistical data",
+              ],
+              code: `<table>
+  <caption>Q4 Sales Report</caption>   <!-- Table title -->
+  <thead>
+    <tr>
+      <th scope="col">Product</th>
+      <th scope="col">Q3</th>
+      <th scope="col">Q4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Widget A</td>
+      <td>100</td>
+      <td>150</td>
+    </tr>
+    <tr>
+      <td colspan="2">Subtotal</td>    <!-- spans 2 columns -->
+      <td>250</td>
+    </tr>
+    <tr>
+      <td rowspan="2">Row A</td>       <!-- spans 2 rows -->
+      <td>Cell 1</td>
+      <td>Cell 2</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="3">Source: Annual Report</td>
+    </tr>
+  </tfoot>
+</table>`,
+              tip: "colspan merges columns horizontally. rowspan merges rows vertically. scope='col'/'row' on <th> helps screen readers understand header context.",
+            },
+          ],
+        },
+        {
+          id: "html_media",
+          type: "html",
+          icon: "🎬",
+          title: "Media, Links & Embeds",
+          sub: "a, img, video, audio, iframe, canvas, svg",
+          items: [
+            {
+              tag: "<a> — Links & Anchors",
+              short: "href, target, rel, download",
+              imp: "🔴 Must",
+              cat: "Links",
+              desc: "The anchor tag creates hyperlinks. <b>target='_blank'</b> opens in new tab. <b>rel='noopener noreferrer'</b> is a security requirement with _blank. <b>href='#id'</b> for page section jumps.",
+              when: [
+                "Navigation between pages",
+                "External links (always add rel='noopener noreferrer')",
+                "Page section anchors",
+                "Email and phone links",
+                "File downloads",
+              ],
+              code: `<!-- Basic link -->
+<a href="https://example.com">Visit Site</a>
+
+<!-- Open in new tab — ALWAYS add rel for security -->
+<a href="https://example.com"
+   target="_blank"
+   rel="noopener noreferrer">External Link</a>
+
+<!-- Anchor to section on same page -->
+<a href="#section2">Jump to Section 2</a>
+<section id="section2">...</section>
+
+<!-- Email link -->
+<a href="mailto:user@example.com?subject=Hello&body=Hi there">
+  Email Us
+</a>
+
+<!-- Phone link -->
+<a href="tel:+911234567890">Call Us</a>
+
+<!-- Download file -->
+<a href="report.pdf" download="MyReport.pdf">Download PDF</a>
+<a href="report.pdf" download>Download</a>  <!-- uses original filename -->
+
+<!-- Link with image -->
+<a href="page.html">
+  <img src="thumbnail.jpg" alt="Go to page">
+</a>`,
+              tip: "NEVER use target='_blank' without rel='noopener noreferrer'. Without it, the opened page can access your page via window.opener — security vulnerability.",
+            },
+            {
+              tag: "<video> / <audio>",
+              short: "src, controls, autoplay, loop, muted, poster",
+              imp: "🟡 High",
+              cat: "Media",
+              desc: "Native HTML5 media elements. Multiple <source> tags provide format fallbacks. <b>autoplay requires muted</b> on most browsers.",
+              when: [
+                "Embed video without YouTube",
+                "Background video (autoplay muted loop)",
+                "Audio player",
+                "Multiple format fallbacks",
+              ],
+              code: `<!-- Video with controls -->
+<video
+  width="800" height="450"
+  controls
+  poster="thumbnail.jpg"
+  preload="metadata">       <!-- none | metadata | auto -->
+  <source src="video.mp4" type="video/mp4">
+  <source src="video.webm" type="video/webm">
+  <track src="captions.vtt" kind="subtitles" srclang="en" label="English">
+  Your browser doesn't support video.
+</video>
+
+<!-- Autoplay background video (muted required) -->
+<video autoplay muted loop playsinline>
+  <source src="bg.mp4" type="video/mp4">
+</video>
+
+<!-- Audio player -->
+<audio controls preload="none">
+  <source src="audio.mp3" type="audio/mpeg">
+  <source src="audio.ogg" type="audio/ogg">
+</audio>`,
+              tip: "autoplay only works when muted. playsinline is required for iOS Safari to autoplay inline (without fullscreen).",
+            },
+            {
+              tag: "<iframe> / <embed>",
+              short: "Embedding external content",
+              imp: "🟡 High",
+              cat: "Embeds",
+              desc: "Embeds another webpage or external content. Used for Google Maps, YouTube, payment widgets.",
+              when: [
+                "Embed YouTube video",
+                "Google Maps integration",
+                "Third-party widgets",
+              ],
+              code: `<!-- YouTube embed (recommended) -->
+<iframe
+  width="560" height="315"
+  src="https://www.youtube.com/embed/VIDEO_ID"
+  title="Video title"
+  frameborder="0"
+  loading="lazy"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media"
+  allowfullscreen>
+</iframe>
+
+<!-- Google Maps -->
+<iframe
+  src="https://maps.google.com/maps?q=Delhi&output=embed"
+  width="600" height="450"
+  style="border:0"
+  loading="lazy"
+  allowfullscreen>
+</iframe>
+
+<!-- Responsive iframe wrapper -->
+<div style="position:relative; padding-bottom:56.25%; height:0;">
+  <iframe style="position:absolute; top:0; left:0; width:100%; height:100%;"
+    src="https://www.youtube.com/embed/VIDEO_ID">
+  </iframe>
+</div>`,
+              tip: "56.25% padding-bottom = 16:9 aspect ratio (9/16 = 0.5625). This is the standard responsive iframe hack.",
+            },
+          ],
+        },
+
+        // ─────────────── CSS SECTIONS ───────────────
+        {
+          id: "css_selectors",
+          type: "css",
+          icon: "🎯",
+          title: "CSS Selectors",
+          sub: "Target elements precisely — all selector types and combinators",
+          items: [
+            {
+              tag: "Basic & Combinators",
+              short: "element, .class, #id, *, descendant, child, sibling",
+              imp: "🔴 Must",
+              cat: "Selectors",
+              desc: "Selectors target which elements to style. Specificity determines which rule wins when multiple match. <b>ID > Class > Element</b>.",
+              when: [
+                "element: style all tags of a type",
+                "class: reusable styling",
+                "id: unique element",
+                "combinators: relationship-based targeting",
+              ],
+              code: `/* Basic */
+p { }               /* all <p> elements */
+.card { }           /* class="card" */
+#header { }         /* id="header" */
+* { }               /* everything (universal) */
+
+/* Combinators */
+div p { }           /* <p> ANYWHERE inside <div> (descendant) */
+div > p { }         /* <p> DIRECT child of <div> only */
+h1 + p { }          /* <p> immediately AFTER <h1> (adjacent sibling) */
+h1 ~ p { }          /* ALL <p> after <h1> (general sibling) */
+
+/* Multiple selectors */
+h1, h2, h3 { }     /* targets all three */
+p.highlight { }     /* <p> with class "highlight" */
+a[href] { }         /* <a> that has href attribute */
+
+/* Attribute selectors */
+[type="email"] { }        /* exact match */
+[class^="btn"] { }        /* class starts with "btn" */
+[class$="-primary"] { }   /* class ends with "-primary" */
+[class*="icon"] { }       /* class contains "icon" */
+[lang|="en"] { }          /* en or en-US (hyphen separated) */`,
+              tip: "Specificity: inline(1000) > ID(100) > class/pseudo-class/attribute(10) > element/pseudo-element(1). Use classes over IDs for styling.",
+            },
+            {
+              tag: "Pseudo-classes",
+              short: ":hover, :focus, :nth-child, :not, :is, :where",
+              imp: "🔴 Must",
+              cat: "Selectors",
+              desc: "Pseudo-classes select elements based on their <b>state</b> or <b>position</b>. They start with a single colon.",
+              when: [
+                ":hover for interactive states",
+                ":focus for accessibility — never remove outline",
+                ":nth-child for alternating rows",
+                ":not for exclusions",
+              ],
+              code: `/* State pseudo-classes */
+a:hover { color: blue; }         /* mouse over */
+input:focus { outline: 2px solid blue; }   /* has keyboard focus */
+input:focus-visible { }          /* focus via keyboard only (not click) */
+button:active { }                /* being clicked */
+a:visited { color: purple; }     /* visited link */
+input:checked { }                /* checkbox/radio checked */
+input:disabled { opacity: 0.5; }
+input:valid { border-color: green; }
+input:invalid { border-color: red; }
+input:placeholder-shown { }      /* placeholder visible (empty) */
+input:required { }
+:target { }                      /* element matched by URL #hash */
+
+/* Position pseudo-classes */
+li:first-child { }
+li:last-child { }
+li:nth-child(2) { }              /* specific position */
+li:nth-child(odd) { }            /* 1, 3, 5... */
+li:nth-child(even) { }           /* 2, 4, 6... */
+li:nth-child(3n) { }             /* every 3rd: 3,6,9... */
+li:nth-child(3n+1) { }           /* 1,4,7,10... */
+li:only-child { }                /* no siblings */
+p:empty { }                      /* has no children */
+
+/* Logical pseudo-classes */
+:not(.disabled) { }              /* not matching selector */
+:is(h1, h2, h3) { }             /* matches any — counts highest specificity */
+:where(h1, h2, h3) { }          /* like :is but zero specificity */
+:has(img) { }                    /* parent containing img (modern) */`,
+              tip: ":nth-child(an+b) formula: 'a' is cycle size, 'b' is offset. odd=2n+1, even=2n. :is() lets you group selectors without repeating.",
+            },
+            {
+              tag: "Pseudo-elements",
+              short:
+                "::before, ::after, ::first-line, ::placeholder, ::selection",
+              imp: "🔴 Must",
+              cat: "Selectors",
+              desc: "Pseudo-elements (double colon) create or style parts of an element. <b>::before and ::after</b> are the most used — they insert content without HTML.",
+              when: [
+                "::before/::after: decorative content, icons, overlays",
+                "::placeholder: style placeholder text",
+                "::selection: highlight color",
+                "::first-letter/line: drop caps, pull quotes",
+              ],
+              code: `/* Insert decorative content */
+.card::before {
+  content: "";              /* REQUIRED even if empty */
+  display: block;
+  width: 40px; height: 4px;
+  background: blue;
+}
+
+/* Add icon with content */
+.link::after {
+  content: " →";
+}
+
+/* Add attribute value */
+abbr::after {
+  content: " (" attr(title) ")";
+}
+
+/* Style placeholder */
+input::placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Text selection highlight */
+::selection {
+  background: #534AB7;
+  color: white;
+}
+
+/* First letter — drop cap */
+p::first-letter {
+  font-size: 3em;
+  float: left;
+  line-height: 0.8;
+  margin-right: 8px;
+}
+
+/* First line */
+p::first-line {
+  font-weight: bold;
+}`,
+              tip: "::before and ::after REQUIRE content property (even content: '' for empty). They're inline by default — add display: block or display: flex to control layout.",
+            },
+          ],
+        },
+        {
+          id: "css_box_model",
+          type: "css",
+          icon: "📦",
+          title: "Box Model & Sizing",
+          sub: "margin, padding, border, width, height, box-sizing",
+          items: [
+            {
+              tag: "Box Model Complete",
+              short: "content, padding, border, margin",
+              imp: "🔴 Must",
+              cat: "Box Model",
+              desc: "Every element is a box with 4 layers. <b>box-sizing: border-box</b> makes width include padding+border — use it everywhere.",
+              when: [
+                "Understanding element dimensions",
+                "Spacing between elements",
+                "Border and background areas",
+              ],
+              code: `/* THE MOST IMPORTANT CSS RESET */
+*, *::before, *::after {
+  box-sizing: border-box;  /* width = content + padding + border */
+}
+/* Without this: width = content only, padding/border adds extra space */
+
+.box {
+  /* Content */
+  width: 300px;
+  height: 200px;
+  min-width: 100px;
+  max-width: 600px;
+  min-height: 50px;
+  max-height: 400px;
+
+  /* Padding — inside the border */
+  padding: 20px;                    /* all sides */
+  padding: 10px 20px;               /* top+bottom | left+right */
+  padding: 10px 20px 15px 25px;     /* top right bottom left (clockwise) */
+  padding-top: 10px;
+  padding-inline: 20px;             /* left+right (logical) */
+  padding-block: 10px;              /* top+bottom (logical) */
+
+  /* Border */
+  border: 2px solid #333;           /* width style color */
+  border: none;
+  border-radius: 8px;               /* rounded corners */
+  border-radius: 50%;               /* circle (when width=height) */
+  border-radius: 10px 20px;         /* top-left+bottom-right | rest */
+  border-top: 3px dashed red;
+  outline: 2px solid blue;          /* outside border, no space taken */
+  outline-offset: 4px;
+
+  /* Margin — outside the border */
+  margin: 20px;
+  margin: 0 auto;                   /* center block horizontally */
+  margin-top: -10px;                /* negative margin pulls element up */
+  margin-inline: auto;              /* center (modern logical) */
+}`,
+              tip: "box-sizing: border-box should be on every project. Without it, padding expands element beyond specified width. Put it in universal reset.",
+            },
+            {
+              tag: "Display Property — All Values",
+              short: "block, inline, inline-block, none, flex, grid",
+              imp: "🔴 Must",
+              cat: "Display",
+              desc: "display controls how an element participates in layout. This is one of the most important CSS properties.",
+              when: [
+                "block: full-width containers, stack vertically",
+                "inline: text-level, sits in line with text",
+                "flex/grid: modern layouts",
+                "none: hide element completely (removes from flow)",
+              ],
+              code: `/* Block — takes full width, stacks vertically */
+div, p, h1-h6, section, ul { display: block; }
+
+/* Inline — width = content, sits in text flow */
+span, a, strong, em { display: inline; }
+/* ⚠ margin-top/bottom and width/height DON'T work on inline */
+
+/* Inline-block — inline position BUT block sizing */
+.badge {
+  display: inline-block;  /* sits in text but accepts width/height/margin */
+  width: 80px;
+  height: 30px;
+  margin: 5px;
+}
+
+/* None — completely removed from layout */
+.hidden { display: none; }      /* gone from flow, invisible */
+.invisible { visibility: hidden; } /* invisible but KEEPS space */
+
+/* Flex — 1D layout */
+.container { display: flex; }
+
+/* Grid — 2D layout */
+.grid { display: grid; }
+
+/* Contents — element itself disappears, children remain */
+.wrapper { display: contents; }
+
+/* Table display (for data alignment) */
+.table { display: table; }
+.row { display: table-row; }
+.cell { display: table-cell; }`,
+              tip: "Key difference: display:none removes from layout entirely. visibility:hidden hides but keeps space. opacity:0 keeps space and keeps interactive.",
+            },
+            {
+              tag: "Position Property",
+              short: "static, relative, absolute, fixed, sticky",
+              imp: "🔴 Must",
+              cat: "Position",
+              desc: "Controls how elements are positioned in the page. <b>absolute</b> is relative to nearest positioned ancestor (not static). <b>sticky</b> = relative until scrolled to threshold then fixed.",
+              when: [
+                "relative: offset without leaving flow, create stacking context",
+                "absolute: tooltips, dropdowns, overlays",
+                "fixed: sticky navbars, floating buttons",
+                "sticky: section headers that stick while scrolling",
+              ],
+              code: `/* Static (default) — normal document flow */
+.element { position: static; }
+
+/* Relative — offset FROM normal position, still in flow */
+.relative {
+  position: relative;
+  top: 10px;            /* move down 10px from where it would be */
+  left: 20px;           /* move right 20px */
+  z-index: 1;           /* z-index works now */
+}
+
+/* Absolute — removed from flow, positioned relative to nearest
+   positioned (non-static) ancestor */
+.parent { position: relative; }  /* ← creates positioning context */
+.tooltip {
+  position: absolute;
+  top: 100%;            /* below parent */
+  left: 50%;
+  transform: translateX(-50%);  /* center horizontally */
+}
+
+/* Fixed — relative to viewport, stays on scroll */
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+}
+
+/* Sticky — relative until threshold, then fixed within parent */
+.sticky-header {
+  position: sticky;
+  top: 0;               /* sticks when 0px from top */
+  background: white;
+  z-index: 100;
+}`,
+              tip: "Absolute positioning needs a positioned ancestor. If none found, it's relative to <html>. Always set position:relative on the parent when using absolute children.",
+            },
+          ],
+        },
+        {
+          id: "css_flexbox",
+          type: "css",
+          icon: "↔️",
+          title: "Flexbox — Complete Guide",
+          sub: "1D layout system for rows and columns",
+          items: [
+            {
+              tag: "Flex Container Properties",
+              short:
+                "display:flex, flex-direction, justify-content, align-items, flex-wrap, gap",
+              imp: "🔴 Must",
+              cat: "Flexbox",
+              desc: "Applied to the <b>parent (container)</b>. Controls how children are arranged. <b>justify-content</b> = main axis. <b>align-items</b> = cross axis.",
+              when: [
+                "Center element vertically and horizontally",
+                "Navigation bar",
+                "Card row",
+                "Distribute space between items",
+              ],
+              code: `/* CONTAINER (parent) */
+.container {
+  display: flex;
+
+  /* Direction */
+  flex-direction: row;             /* default: left to right */
+  flex-direction: row-reverse;     /* right to left */
+  flex-direction: column;          /* top to bottom */
+  flex-direction: column-reverse;  /* bottom to top */
+
+  /* Main axis alignment (horizontal for row) */
+  justify-content: flex-start;     /* default: left aligned */
+  justify-content: flex-end;       /* right aligned */
+  justify-content: center;         /* centered */
+  justify-content: space-between;  /* equal gaps between items */
+  justify-content: space-around;   /* equal space around items */
+  justify-content: space-evenly;   /* equal space everywhere */
+
+  /* Cross axis alignment (vertical for row) */
+  align-items: stretch;            /* default: fill height */
+  align-items: flex-start;         /* top aligned */
+  align-items: flex-end;           /* bottom aligned */
+  align-items: center;             /* vertically centered */
+  align-items: baseline;           /* text baseline aligned */
+
+  /* Wrapping */
+  flex-wrap: nowrap;               /* default: no wrap, shrinks */
+  flex-wrap: wrap;                 /* wrap to next line */
+  flex-wrap: wrap-reverse;
+
+  /* Gap between items (modern, preferred over margin) */
+  gap: 16px;                       /* row and column gap */
+  gap: 16px 24px;                  /* row-gap column-gap */
+  row-gap: 16px;
+  column-gap: 24px;
+
+  /* Multi-line alignment (when flex-wrap: wrap) */
+  align-content: flex-start;
+  align-content: center;
+  align-content: space-between;
+}
+
+/* PERFECT CENTER (vertical + horizontal) */
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}`,
+              tip: "The most powerful combo: display:flex + justify-content:center + align-items:center perfectly centers any element. Memorize this.",
+            },
+            {
+              tag: "Flex Item Properties",
+              short:
+                "flex, flex-grow, flex-shrink, flex-basis, align-self, order",
+              imp: "🔴 Must",
+              cat: "Flexbox",
+              desc: "Applied to <b>children (items)</b>. Controls individual item sizing and positioning.",
+              when: [
+                "Make one item grow to fill remaining space",
+                "Override alignment for one item",
+                "Order items differently from HTML order",
+              ],
+              code: `/* ITEM (child) */
+.item {
+  /* flex shorthand: flex-grow flex-shrink flex-basis */
+  flex: 1;              /* grow=1, shrink=1, basis=0 (fill equally) */
+  flex: 0 0 200px;      /* fixed 200px, no grow no shrink */
+  flex: 2;              /* grows twice as fast as flex:1 siblings */
+  flex: none;           /* 0 0 auto — don't grow or shrink */
+
+  /* Individual properties */
+  flex-grow: 1;         /* how much to grow relative to siblings */
+  flex-shrink: 0;       /* 0 = never shrink below flex-basis */
+  flex-basis: 200px;    /* starting size before grow/shrink */
+
+  /* Override align-items for just this item */
+  align-self: flex-start;
+  align-self: flex-end;
+  align-self: center;
+  align-self: stretch;
+
+  /* Visual order (doesn't change HTML order) */
+  order: -1;            /* move to front */
+  order: 1;             /* move to back */
+  order: 0;             /* default */
+
+  /* Margin auto trick — push remaining items to the other end */
+  margin-left: auto;    /* push THIS item to the right */
+}
+
+/* COMMON PATTERNS */
+
+/* Sidebar layout: sidebar fixed, main grows */
+.sidebar { flex: 0 0 250px; }
+.main { flex: 1; }
+
+/* Navbar with logo left, links right */
+.nav-logo { margin-right: auto; }  /* or: .nav-links { margin-left: auto; } */`,
+              tip: "flex: 1 means 'take up equal share of remaining space'. flex: 0 0 200px means 'always exactly 200px'. margin-left: auto pushes everything after it to the right.",
+            },
+          ],
+        },
+        {
+          id: "css_grid",
+          type: "css",
+          icon: "⊞",
+          title: "CSS Grid — Complete Guide",
+          sub: "2D layout system for rows AND columns simultaneously",
+          items: [
+            {
+              tag: "Grid Container Properties",
+              short:
+                "display:grid, grid-template-columns/rows, gap, repeat, fr",
+              imp: "🔴 Must",
+              cat: "Grid",
+              desc: "CSS Grid is the most powerful 2D layout system. <b>fr</b> unit = fraction of available space. <b>repeat()</b> avoids repetition. <b>minmax()</b> for flexible min/max sizing.",
+              when: [
+                "Page layout with header/sidebar/main/footer",
+                "Image gallery",
+                "Dashboard cards",
+                "Any 2D content arrangement",
+              ],
+              code: `/* GRID CONTAINER */
+.grid {
+  display: grid;
+
+  /* Define columns */
+  grid-template-columns: 200px 1fr 1fr;     /* fixed + flexible */
+  grid-template-columns: repeat(3, 1fr);    /* 3 equal columns */
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* responsive! */
+  grid-template-columns: auto 1fr auto;     /* content-sized | fill | content-sized */
+
+  /* Define rows */
+  grid-template-rows: auto 1fr auto;       /* header content footer */
+  grid-auto-rows: 200px;                   /* implicit row height */
+  grid-auto-rows: minmax(100px, auto);     /* min 100px, grows with content */
+
+  /* Named grid areas */
+  grid-template-areas:
+    "header header header"
+    "sidebar main main"
+    "footer footer footer";
+
+  /* Gap */
+  gap: 16px;
+  row-gap: 16px;
+  column-gap: 24px;
+
+  /* Alignment */
+  justify-items: stretch;   /* horizontal alignment of ALL cells */
+  align-items: stretch;     /* vertical alignment of ALL cells */
+  justify-content: center;  /* horizontal alignment of grid in container */
+  align-content: center;    /* vertical alignment of grid in container */
+  place-items: center;      /* shorthand: align-items justify-items */
+}`,
+              tip: "repeat(auto-fill, minmax(200px, 1fr)) is the magic responsive grid — cards automatically wrap to new rows as screen shrinks. No media queries needed!",
+            },
+            {
+              tag: "Grid Item Placement",
+              short: "grid-column, grid-row, grid-area, span",
+              imp: "🔴 Must",
+              cat: "Grid",
+              desc: "Grid items can be placed precisely by line numbers or named areas. <b>span</b> makes an item span multiple cells.",
+              when: [
+                "Make hero section span full width",
+                "Place items in specific cells",
+                "Create magazine-style layouts",
+              ],
+              code: `/* Grid item placement by LINE NUMBERS (1-indexed) */
+.item {
+  grid-column: 1 / 3;          /* from line 1 to line 3 (2 columns) */
+  grid-column: 1 / -1;         /* from line 1 to last line (full width) */
+  grid-column: span 2;         /* span 2 columns from current position */
+
+  grid-row: 1 / 3;             /* span 2 rows */
+  grid-row: span 2;
+
+  /* Shorthand: row-start/col-start/row-end/col-end */
+  grid-area: 1 / 1 / 3 / 4;
+}
+
+/* Named area placement */
+.header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main { grid-area: main; }
+.footer { grid-area: footer; }
+
+/* Individual item alignment */
+.item {
+  justify-self: start | end | center | stretch;
+  align-self: start | end | center | stretch;
+  place-self: center;          /* shorthand */
+}
+
+/* Full page layout example */
+.page {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "sidebar main"
+    "footer footer";
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}`,
+              tip: "grid-column: 1 / -1 spans FULL WIDTH regardless of how many columns. -1 always refers to the last grid line. Use it for full-width headers/footers.",
+            },
+          ],
+        },
+        {
+          id: "css_typography",
+          type: "css",
+          icon: "🔤",
+          title: "Typography & Colors",
+          sub: "font, text, color, background — all text and color properties",
+          items: [
+            {
+              tag: "Font & Text Properties",
+              short:
+                "font-family, size, weight, line-height, letter-spacing, text-align",
+              imp: "🔴 Must",
+              cat: "Typography",
+              desc: "Typography controls readability. <b>font-family stack</b> provides fallbacks. <b>line-height: 1.5-1.6</b> is optimal for body text. <b>rem</b> units scale with user preferences.",
+              when: [
+                "Setting base typography for entire site",
+                "Responsive font sizes",
+                "Text alignment and spacing",
+              ],
+              code: `body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont,
+               'Segoe UI', Roboto, sans-serif;  /* stack with fallbacks */
+  font-size: 16px;         /* base size (1rem = 16px by default) */
+  line-height: 1.6;        /* 1.5-1.6 optimal for body text */
+  color: #1a1a2e;
+}
+
+h1 {
+  font-size: 2.5rem;       /* 40px if base=16px */
+  font-weight: 700;        /* 100-900 or: thin light regular bold black */
+  letter-spacing: -0.02em; /* tighter for headings */
+  line-height: 1.2;        /* tighter for headings */
+}
+
+.text {
+  font-style: normal | italic | oblique;
+  font-variant: normal | small-caps;
+  text-decoration: none | underline | line-through | overline;
+  text-decoration: underline dotted blue;   /* color + style */
+  text-transform: none | uppercase | lowercase | capitalize;
+  text-align: left | right | center | justify;
+  text-indent: 2em;                 /* first line indent */
+  word-spacing: 4px;
+  letter-spacing: 0.05em;           /* em = relative to font-size */
+  white-space: nowrap;              /* prevent wrapping */
+  white-space: pre-wrap;            /* preserve newlines + wrap */
+  overflow-wrap: break-word;        /* break long words */
+  word-break: break-all;
+
+  /* Truncate with ellipsis */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  /* Multi-line truncate (webkit) */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Google Fonts import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');`,
+              tip: "Use rem for font sizes (scales with user browser settings). Use em for component-relative sizes. Avoid px for font sizes in production.",
+            },
+            {
+              tag: "Colors & Backgrounds",
+              short: "color, background, gradient, opacity, rgba",
+              imp: "🔴 Must",
+              cat: "Colors",
+              desc: "CSS supports multiple color formats. <b>rgba/hsla</b> support transparency. <b>CSS variables</b> for theme colors. Gradients are background-image values.",
+              when: [
+                "Setting colors with transparency",
+                "Creating gradients",
+                "Dark mode with CSS variables",
+                "Background images",
+              ],
+              code: `/* Color formats */
+color: red;                              /* named */
+color: #ff5733;                          /* hex */
+color: #f53;                             /* shorthand hex */
+color: rgb(255, 87, 51);                 /* rgb */
+color: rgba(255, 87, 51, 0.8);          /* rgb + alpha */
+color: hsl(14, 100%, 60%);              /* hue saturation lightness */
+color: hsla(14, 100%, 60%, 0.8);        /* hsl + alpha */
+color: oklch(0.7 0.2 45);              /* modern, perceptually uniform */
+
+/* CSS Custom Properties (variables) */
+:root {
+  --primary: #534AB7;
+  --primary-light: rgba(83,74,183,0.15);
+  --text: #1a1a2e;
+  --bg: #ffffff;
+}
+.element { color: var(--primary); background: var(--bg); }
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root { --text: #e2e2f0; --bg: #0d0d1a; }
+}
+
+/* Backgrounds */
+background-color: #fff;
+background-image: url('image.jpg');
+background-size: cover;              /* cover entire area, may crop */
+background-size: contain;            /* fit inside, may show bg color */
+background-size: 100% 100%;
+background-position: center;
+background-repeat: no-repeat;
+background-attachment: fixed;        /* parallax effect */
+background: center/cover no-repeat url('img.jpg'); /* shorthand */
+
+/* Gradients */
+background: linear-gradient(to right, #667eea, #764ba2);
+background: linear-gradient(135deg, #f5a623 0%, #f97316 100%);
+background: radial-gradient(circle at center, #fff, #000);
+background: conic-gradient(red, yellow, green, red);
+
+/* Multiple backgrounds */
+background:
+  url('overlay.png') center/cover,
+  linear-gradient(to bottom, transparent, black);`,
+              tip: "Use CSS custom properties (variables) for all colors. Makes dark mode, theming, and consistency trivial. Define on :root, use with var(--name).",
+            },
+          ],
+        },
+        {
+          id: "css_responsive",
+          type: "css",
+          icon: "📱",
+          title: "Responsive Design",
+          sub: "Media queries, responsive units, fluid layouts",
+          items: [
+            {
+              tag: "Media Queries",
+              short:
+                "@media, breakpoints, min-width, max-width, prefers-color-scheme",
+              imp: "🔴 Must",
+              cat: "Responsive",
+              desc: "Media queries apply CSS conditionally based on screen size, orientation, or user preference. <b>Mobile-first</b>: start with mobile styles, use min-width to add desktop styles.",
+              when: [
+                "Different layouts for mobile/tablet/desktop",
+                "Dark mode support",
+                "Print styles",
+                "High-DPI (retina) screens",
+              ],
+              code: `/* MOBILE FIRST approach (recommended) */
+/* Base styles = mobile */
+.container { padding: 16px; }
+.grid { grid-template-columns: 1fr; }
+
+/* Tablet (768px and up) */
+@media (min-width: 768px) {
+  .container { padding: 24px; }
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Desktop (1024px and up) */
+@media (min-width: 1024px) {
+  .container { max-width: 1200px; margin: 0 auto; }
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* Large desktop (1440px) */
+@media (min-width: 1440px) { }
+
+/* DESKTOP FIRST (max-width) */
+@media (max-width: 767px) { /* mobile only styles */ }
+
+/* Orientation */
+@media (orientation: landscape) { }
+@media (orientation: portrait) { }
+
+/* Combined conditions */
+@media (min-width: 768px) and (max-width: 1023px) { /* tablet only */ }
+
+/* High DPI / Retina screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .logo { background-image: url('logo@2x.png'); }
+}
+
+/* User preferences */
+@media (prefers-color-scheme: dark) { }
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+@media print { .no-print { display: none; } }`,
+              tip: "Mobile-first means write base CSS for mobile, then ADD styles for larger screens. min-width queries are additive. This is better for performance.",
+            },
+            {
+              tag: "Responsive Units",
+              short: "rem, em, vw, vh, vmin, vmax, %, clamp()",
+              imp: "🔴 Must",
+              cat: "Responsive",
+              desc: "Relative units scale with context. <b>rem</b> = root em (based on html font-size). <b>em</b> = current element's font-size. <b>vw/vh</b> = % of viewport. <b>clamp()</b> is the modern responsive font solution.",
+              when: [
+                "rem: font sizes that respect user preferences",
+                "vw/vh: hero sections, modals",
+                "clamp(): fluid typography without media queries",
+                "% for widths relative to parent",
+              ],
+              code: `/* Absolute units (avoid for fonts) */
+px  — pixels (device-independent)
+pt  — points (mainly for print)
+
+/* Relative to root font-size (html) */
+rem — root em. 1rem = 16px if html font-size is default
+html { font-size: 16px; }  /* 1rem = 16px */
+html { font-size: 62.5%; } /* 1rem = 10px (easier math) */
+
+/* Relative to current element font-size */
+em  — 1em = current font-size. Compounds with nesting!
+/* Use em for: padding/margin relative to font-size */
+/* Avoid em for font-size (cascading/compounding issues) */
+
+/* Viewport units */
+vw  — 1vw = 1% of viewport width
+vh  — 1vh = 1% of viewport height
+vmin — 1% of smaller viewport dimension
+vmax — 1% of larger viewport dimension
+
+/* Modern viewport (avoids mobile browser bar issues) */
+svh  — small viewport height (excludes browser UI)
+dvh  — dynamic viewport height (changes with browser UI)
+
+/* Fluid typography with clamp() */
+h1 { font-size: clamp(1.5rem, 5vw, 3rem); }
+/* min: 1.5rem | preferred: 5vw | max: 3rem */
+/* Automatically scales between min and max! */
+
+p { font-size: clamp(1rem, 1rem + 0.5vw, 1.25rem); }
+
+/* Container queries (modern) */
+@container (min-width: 400px) {
+  .card { flex-direction: row; }
+}
+.card-container { container-type: inline-size; }`,
+              tip: "clamp(min, preferred, max) eliminates many media queries for typography. clamp(1rem, 2.5vw, 2rem) = responsive font that stays within readable bounds.",
+            },
+          ],
+        },
+        {
+          id: "css_animations",
+          type: "css",
+          icon: "✨",
+          title: "Transitions & Animations",
+          sub: "transition, animation, @keyframes, transform",
+          items: [
+            {
+              tag: "Transitions",
+              short: "transition, duration, timing-function, delay",
+              imp: "🔴 Must",
+              cat: "Animation",
+              desc: "Transitions animate property changes smoothly (on hover, focus, class toggle). <b>Always specify which property to transition</b> — don't use 'all' in production.",
+              when: [
+                "Hover effects on buttons/cards",
+                "Focus states on inputs",
+                "Smooth color/size changes",
+                "Collapsible elements",
+              ],
+              code: `/* Basic transition */
+.btn {
+  background: blue;
+  transition: background 0.3s ease;     /* property duration timing */
+}
+.btn:hover { background: darkblue; }
+
+/* Multiple properties */
+.card {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+/* Timing functions */
+transition-timing-function:
+  ease,           /* slow-fast-slow (default) */
+  linear,         /* constant speed */
+  ease-in,        /* slow start */
+  ease-out,       /* slow end */
+  ease-in-out,    /* slow start and end */
+  cubic-bezier(0.68,-0.55,0.27,1.55);  /* custom (bounce) */
+
+/* Delay */
+.item:nth-child(1) { transition-delay: 0s; }
+.item:nth-child(2) { transition-delay: 0.1s; }
+.item:nth-child(3) { transition-delay: 0.2s; }  /* stagger effect */`,
+              tip: "Only transition specific properties, not 'all'. Transition 'all' can cause performance issues. Best properties to transition: transform, opacity (GPU-accelerated).",
+            },
+            {
+              tag: "@keyframes & Animation",
+              short: "@keyframes, animation shorthand, play-state",
+              imp: "🔴 Must",
+              cat: "Animation",
+              desc: "Keyframe animations run automatically (no trigger needed). More control than transitions — multiple steps, loops, delays.",
+              when: [
+                "Loading spinners",
+                "Infinite looping animations",
+                "Complex multi-step animations",
+                "Entrance animations on load",
+              ],
+              code: `/* Define animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* Apply animation */
+.fade-in {
+  animation: fadeIn 0.5s ease forwards; /* name duration timing fill-mode */
+}
+
+.spinner {
+  animation: spin 1s linear infinite;   /* infinite loop */
+}
+
+/* Full shorthand: name duration timing delay iteration direction fill-state */
+animation: slideIn 0.4s ease-out 0.2s 1 normal forwards running;
+
+/* Multiple animations */
+.element {
+  animation:
+    fadeIn 0.5s ease forwards,
+    pulse 2s ease infinite 0.5s;     /* second starts after 0.5s delay */
+}
+
+/* Control playback */
+.paused { animation-play-state: paused; }
+.playing { animation-play-state: running; }`,
+              tip: "forwards fill-mode keeps the final state after animation ends. Without it, element snaps back to original style. Use for entrance animations.",
+            },
+            {
+              tag: "Transform Property",
+              short: "translate, rotate, scale, skew, perspective, matrix",
+              imp: "🔴 Must",
+              cat: "Animation",
+              desc: "Transforms move/rotate/scale elements without affecting layout (no reflow). <b>GPU-accelerated</b> — always prefer transform over changing top/left for animations.",
+              when: [
+                "Move elements for hover effects",
+                "Center elements",
+                "Create 3D effects",
+                "Efficient animations (no layout reflow)",
+              ],
+              code: `.element {
+  /* 2D Transforms */
+  transform: translateX(50px);          /* move right 50px */
+  transform: translateY(-20px);         /* move up 20px */
+  transform: translate(50px, -20px);    /* move right+up */
+  transform: translate(-50%, -50%);     /* center trick (relative to self) */
+
+  transform: rotate(45deg);             /* clockwise rotation */
+  transform: rotate(-45deg);            /* counter-clockwise */
+
+  transform: scale(1.2);                /* 20% bigger */
+  transform: scale(1.2, 0.8);          /* x=1.2 y=0.8 */
+  transform: scaleX(2);                 /* double width only */
+
+  transform: skew(10deg, 5deg);         /* slant */
+
+  /* Multiple transforms (apply right to left) */
+  transform: translateX(100px) rotate(45deg) scale(1.2);
+
+  /* 3D transforms */
+  transform: rotateX(45deg);
+  transform: rotateY(45deg);
+  transform: perspective(500px) rotateY(30deg);
+
+  /* Transform origin */
+  transform-origin: center;             /* default */
+  transform-origin: top left;
+  transform-origin: 50% 100%;          /* bottom center */
+}
+
+/* CENTER ELEMENT TRICK */
+.centered {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);   /* offset by half its own size */
+}`,
+              tip: "translate(-50%, -50%) is percentage of the element itself (not parent). Combined with position:absolute top:50% left:50% — perfect centering regardless of element size.",
+            },
+          ],
+        },
+        {
+          id: "css_variables",
+          type: "css",
+          icon: "🎨",
+          title: "CSS Variables, Functions & Modern Features",
+          sub: "Custom properties, calc(), clamp(), :root, @layer, container queries",
+          items: [
+            {
+              tag: "CSS Custom Properties (Variables)",
+              short: ":root, var(), fallbacks, dynamic theming",
+              imp: "🔴 Must",
+              cat: "Modern CSS",
+              desc: "CSS variables (custom properties) are defined with -- prefix. They cascade, inherit, and can be updated with JavaScript. Essential for theming and consistency.",
+              when: [
+                "Consistent color palette across project",
+                "Dark/light mode switching",
+                "Component-level theming",
+                "JavaScript-controlled dynamic values",
+              ],
+              code: `/* Define on :root for global scope */
+:root {
+  /* Colors */
+  --color-primary: #534AB7;
+  --color-primary-hover: #3d358f;
+  --color-text: #1a1a2e;
+  --color-bg: #ffffff;
+
+  /* Spacing scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 48px;
+
+  /* Typography */
+  --font-base: 1rem;
+  --font-lg: 1.25rem;
+  --font-xl: 2rem;
+  --font-sans: 'Inter', sans-serif;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-full: 9999px;
+}
+
+/* Use with var() */
+.button {
+  background: var(--color-primary);
+  color: white;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+}
+
+/* Fallback value */
+color: var(--color-text, #333);  /* use #333 if variable undefined */
+
+/* Component-scoped variables */
+.card {
+  --card-bg: #fff;
+  --card-padding: 24px;
+  background: var(--card-bg);
+  padding: var(--card-padding);
+}
+
+/* Dark mode with variables */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text: #e2e2f0;
+    --color-bg: #0d0d1a;
+  }
+}
+
+/* Update with JavaScript */
+document.documentElement.style.setProperty('--color-primary', '#f00');`,
+              tip: "CSS variables cascade like regular CSS — you can override them on any element. A component can define local variables that override :root values within its scope.",
+            },
+            {
+              tag: "CSS Functions",
+              short: "calc(), clamp(), min(), max(), var()",
+              imp: "🔴 Must",
+              cat: "Modern CSS",
+              desc: "CSS math functions allow dynamic calculations directly in CSS. <b>calc()</b> mixes units. <b>clamp()</b> fluid sizing. <b>min()/max()</b> conditional sizing.",
+              when: [
+                "Mix units: calc(100% - 60px)",
+                "Fluid typography: clamp()",
+                "Responsive widths without media queries",
+                "Dynamic spacing based on screen size",
+              ],
+              code: `/* calc() — mix different units */
+.sidebar { width: calc(100% - 250px); }
+.element { margin-top: calc(var(--spacing) * 2); }
+.full-minus-padding { width: calc(100vw - 2 * 1.5rem); }
+
+/* min() — use the smaller value */
+.image { width: min(600px, 100%); }  /* won't exceed 600px or screen */
+.text { font-size: min(5vw, 2rem); } /* smaller of 5vw or 2rem */
+
+/* max() — use the larger value */
+.container { width: max(320px, 50%); } /* at least 320px */
+.text { font-size: max(1rem, 2vw); }   /* at least 1rem */
+
+/* clamp(min, preferred, max) — FLUID SIZING */
+h1 { font-size: clamp(1.5rem, 5vw, 3rem); }
+.container { width: clamp(320px, 90%, 1200px); }
+.gap { gap: clamp(12px, 3%, 24px); }
+
+/* env() — access device environment values */
+.safe {
+  padding-bottom: env(safe-area-inset-bottom); /* iPhone notch */
+}
+
+/* Practical examples */
+/* Fluid container that centers after 1200px */
+.container {
+  width: min(1200px, 100% - 2rem);  /* 100% - padding */
+  margin-inline: auto;
+}
+
+/* Fluid grid columns */
+.grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+}`,
+              tip: "min(600px, 100%) replaces max-width: 600px; width: 100% with one line. It's the modern, cleaner way to create bounded fluid widths.",
+            },
+            {
+              tag: "Modern CSS Utilities",
+              short:
+                "aspect-ratio, object-fit, gap, scroll-snap, :is :where :has",
+              imp: "🟡 High",
+              cat: "Modern CSS",
+              desc: "Modern CSS properties that solve common layout and styling challenges elegantly.",
+              when: [
+                "aspect-ratio: maintain 16:9 for videos",
+                "object-fit: crop images without distortion",
+                "scroll-snap: custom scrolling behavior",
+                "gap: spacing in flex/grid",
+              ],
+              code: `/* aspect-ratio — maintain proportions */
+.video-wrapper { aspect-ratio: 16 / 9; }
+.avatar { aspect-ratio: 1; width: 60px; } /* perfect circle if border-radius:50% */
+.card-image { aspect-ratio: 4 / 3; }
+
+/* object-fit — for <img> and <video> */
+img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;      /* fill, crop if needed (most common) */
+  object-fit: contain;    /* show all, add letterbox */
+  object-fit: fill;       /* stretch (distorts) */
+  object-fit: none;       /* actual size */
+  object-position: center top;  /* focus top of image */
+}
+
+/* Scroll snap */
+.scroll-container {
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;   /* x=horizontal, mandatory=strict */
+  display: flex;
+  gap: 16px;
+}
+.scroll-item {
+  scroll-snap-align: start;        /* start | center | end */
+  flex: 0 0 300px;
+}
+
+/* CSS Scroll behavior */
+html { scroll-behavior: smooth; }  /* smooth anchor scrolling */
+
+/* overflow variations */
+overflow: hidden | scroll | auto | visible;
+overflow-x: hidden;  overflow-y: scroll;
+text-overflow: ellipsis;  /* ... for overflowing text */
+
+/* Pointer events */
+.disabled { pointer-events: none; }  /* click-through */
+.overlay { pointer-events: all; }
+
+/* User select */
+.no-select { user-select: none; }   /* prevent text selection */
+.select-all { user-select: all; }   /* select all on click */
+
+/* Cursor */
+cursor: pointer | default | move | grab | not-allowed | zoom-in | text;
+
+/* Resize */
+textarea { resize: vertical; }  /* only allow vertical resize */`,
+              tip: "object-fit: cover is the go-to for images in fixed-size containers. It crops smartly instead of stretching. Always pair with object-position to control crop focus.",
+            },
+          ],
+        },
+      ];
+
+      let activeId = "html_structure";
+
+      function build() {
+        const sidebar = document.getElementById("sidebar");
+        const main = document.getElementById("main");
+        const pills = document.getElementById("pills");
+
+        // Sections
+        let htmlSecs = DATA.filter((d) => d.type === "html");
+        let cssSecs = DATA.filter((d) => d.type === "css");
+
+        // Pills
+        [...htmlSecs, ...cssSecs].forEach((sec) => {
+          const p = document.createElement("button");
+          p.className =
+            "pill" +
+            (sec.type === "css" ? " css-pill" : "") +
+            (sec.id === activeId ? " on" : "");
+          p.id = "pill-" + sec.id;
+          p.textContent = sec.icon + " " + sec.title;
+          p.onclick = () => goTo(sec.id);
+          pills.appendChild(p);
+        });
+
+        // Sidebar
+        function addSidebarSection(label, secs, type) {
+          const lbl = document.createElement("div");
+          lbl.className = "si-label";
+          lbl.textContent = label;
+          sidebar.appendChild(lbl);
+          secs.forEach((sec) => {
+            const n = document.createElement("div");
+            n.className =
+              "sn" +
+              (sec.id === activeId
+                ? type === "css"
+                  ? " on"
+                  : " html-on"
+                : "");
+            n.id = "nav-" + sec.id;
+            n.innerHTML = `<span>${sec.icon}</span><span>${sec.title}</span>`;
+            n.onclick = () => goTo(sec.id);
+            sidebar.appendChild(n);
+          });
+        }
+        addSidebarSection("HTML", htmlSecs, "html");
+        addSidebarSection("CSS", cssSecs, "css");
+
+        // Main content
+        DATA.forEach((sec) => {
+          const secEl = document.createElement("div");
+          secEl.className = "sec";
+          secEl.id = "sec-" + sec.id;
+          const isCSS = sec.type === "css";
+
+          let itemsHTML = sec.items
+            .map((item, idx) => {
+              const mcId = sec.id + "-" + idx;
+              const impCls = item.imp.includes("Must") ? "b-hot" : "b-imp";
+              const whenHTML = item.when.map((w) => `<li>${w}</li>`).join("");
+              return `
+        <div class="mc ${isCSS ? "css-mc" : "html-mc"}" id="${mcId}">
+          <div class="mc-hdr" onclick="tog('${mcId}')">
+            <span class="mc-tag">${item.tag}</span>
+            <span class="mc-desc-short">${item.short}</span>
+            <div class="badges">
+              <span class="badge ${isCSS ? "b-css" : "b-cat"}">${item.cat}</span>
+              <span class="badge ${impCls}">${item.imp}</span>
+            </div>
+            <span class="mc-chv">▼</span>
+          </div>
+          <div class="mc-body">
+            <p class="mc-full-desc">${item.desc}</p>
+            <div class="when-box">
+              <h5>🟢 When to Use</h5>
+              <ul>${whenHTML}</ul>
+            </div>
+            <div class="syntax-label">Syntax & Examples</div>
+            <div class="code">${escH(item.code)}</div>
+            <div class="tip">💡 <b>Key Insight:</b> ${item.tip}</div>
+          </div>
+        </div>`;
+            })
+            .join("");
+
+          secEl.innerHTML = `
+      <div class="sec-hdr ${isCSS ? "css-hdr" : "html-hdr"}">
+        <span class="sec-icon">${sec.icon}</span>
+        <div>
+          <div class="sec-title">${sec.title}</div>
+          <div class="sec-sub">${sec.sub}</div>
+        </div>
+      </div>
+      <div class="cards">${itemsHTML}</div>
+    `;
+          main.appendChild(secEl);
+        });
+      }
+
+      function tog(id) {
+        document.getElementById(id).classList.toggle("open");
+      }
+      function goTo(id) {
+        document
+          .getElementById("sec-" + id)
+          .scrollIntoView({ behavior: "smooth" });
+      }
+      function escH(s) {
+        return s
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+
+      function setupObserver() {
+        const obs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                const id = e.target.id.replace("sec-", "");
+                const sec = DATA.find((d) => d.id === id);
+                if (!sec) return;
+                document
+                  .querySelectorAll(".sn")
+                  .forEach((n) => n.classList.remove("on", "html-on"));
+                document
+                  .querySelectorAll(".pill")
+                  .forEach((p) => p.classList.remove("on"));
+                const n = document.getElementById("nav-" + id);
+                const p = document.getElementById("pill-" + id);
+                if (n) n.classList.add(sec.type === "css" ? "on" : "html-on");
+                if (p) p.classList.add("on");
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: "-115px 0px 0px 0px" },
+        );
+        DATA.forEach((s) => {
+          const el = document.getElementById("sec-" + s.id);
+          if (el) obs.observe(el);
+        });
+      }
+
+      build();
+      setupObserver();
+    </script>
+  </body>
+</html>

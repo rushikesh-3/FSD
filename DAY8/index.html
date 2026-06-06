@@ -1,0 +1,1112 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA Pattern Recognition — Deep Notes</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f0f1a;color:#e2e2f0;line-height:1.6}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:#1a1a2e}::-webkit-scrollbar-thumb{background:#534AB7;border-radius:3px}
+
+/* HEADER */
+.hdr{background:linear-gradient(135deg,#1a1a3e,#0f0f1a);padding:2rem 1.5rem 1.5rem;border-bottom:1px solid #2a2a4a}
+.hdr h1{font-size:22px;font-weight:800;color:#fff;margin-bottom:4px}
+.hdr p{font-size:13px;color:#888;margin-bottom:1rem}
+.pill-row{display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-size:10px;padding:3px 10px;border-radius:10px;font-weight:600;background:#1e1e3a;border:1px solid #3a3a5a;color:#aaa;cursor:pointer;transition:all .15s}
+.pill.on,.pill:hover{background:#534AB7;color:#fff;border-color:#534AB7}
+
+/* LAYOUT */
+.body{display:flex;min-height:100vh}
+.sidebar{width:220px;flex-shrink:0;background:#0d0d1a;border-right:1px solid #1e1e3a;padding:1rem .8rem;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar h3{font-size:10px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;padding-left:6px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:8px;cursor:pointer;margin-bottom:3px;font-size:12px;color:#888;transition:all .15s;border:1px solid transparent}
+.nav-item:hover{background:#1a1a2e;color:#ccc}
+.nav-item.active{background:#1e1e3a;color:#AFA9EC;border-color:#3a3a5a}
+.nav-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.content{flex:1;padding:1.5rem;overflow-y:auto;max-width:900px}
+
+/* PATTERN CARD */
+.pcard{margin-bottom:3rem;scroll-margin-top:1rem}
+.pcard-hdr{display:flex;align-items:flex-start;gap:12px;margin-bottom:1.2rem;padding:1.2rem 1.4rem;background:#13132a;border:1px solid #2a2a4a;border-radius:14px}
+.pcard-icon{font-size:28px;line-height:1}
+.pcard-meta{flex:1}
+.pcard-meta h2{font-size:18px;font-weight:700;color:#fff;margin-bottom:3px}
+.pcard-meta p{font-size:12px;color:#888;margin-bottom:8px;line-height:1.5}
+.tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{font-size:10px;padding:2px 8px;border-radius:6px;font-weight:600}
+.tag-time{background:#1e3a1e;color:#6dcf6d;border:1px solid #2d5a2d}
+.tag-space{background:#1e2a3a;color:#6ab0f5;border:1px solid #1e3a5a}
+.tag-when{background:#2e1e3a;color:#c9a0f5;border:1px solid #4a2a5a}
+
+/* WHEN TO USE */
+.when-box{background:#0e1a0e;border:1px solid #1e3a1e;border-radius:10px;padding:1rem 1.2rem;margin-bottom:1.2rem}
+.when-box h4{font-size:11px;font-weight:700;color:#6dcf6d;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.6rem}
+.when-list{list-style:none;display:flex;flex-direction:column;gap:4px}
+.when-list li{font-size:12px;color:#aaa;padding-left:16px;position:relative;line-height:1.5}
+.when-list li::before{content:"→";position:absolute;left:0;color:#6dcf6d;font-weight:700}
+.when-list li b{color:#e2e2f0}
+
+/* RECOGNITION SIGNALS */
+.signals{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.2rem}
+.sig-box{background:#1a1422;border:1px solid #3a2a4a;border-radius:10px;padding:.8rem 1rem}
+.sig-box h4{font-size:11px;font-weight:700;color:#c9a0f5;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
+.sig-list{list-style:none;display:flex;flex-direction:column;gap:3px}
+.sig-list li{font-size:11.5px;color:#ccc;padding-left:14px;position:relative}
+.sig-list li::before{content:"◆";position:absolute;left:0;font-size:7px;top:4px;color:#c9a0f5}
+
+/* SUBTYPE CARDS */
+.subtypes{display:flex;flex-direction:column;gap:1rem;margin-bottom:1.2rem}
+.sub{background:#12121e;border:1px solid #2a2a3a;border-radius:12px;overflow:hidden}
+.sub-hdr{padding:.8rem 1.2rem;background:#17172a;border-bottom:1px solid #2a2a3a;display:flex;align-items:center;gap:8px;cursor:pointer}
+.sub-hdr h3{font-size:13px;font-weight:700;color:#fff;flex:1}
+.sub-num{font-size:10px;background:#534AB7;color:#fff;padding:2px 7px;border-radius:8px;font-weight:600}
+.sub-diff{font-size:10px;padding:2px 7px;border-radius:8px;font-weight:600}
+.diff-e{background:#1e3a1e;color:#6dcf6d}
+.diff-m{background:#2e2a1e;color:#f5c06a}
+.diff-h{background:#2e1e1e;color:#f56a6a}
+.sub-body{padding:1rem 1.2rem;display:none}
+.sub.open .sub-body{display:block}
+.sub-chv{font-size:12px;color:#555;transition:transform .2s}
+.sub.open .sub-chv{transform:rotate(180deg)}
+
+.sub-desc{font-size:12px;color:#aaa;margin-bottom:.8rem;line-height:1.6}
+.template-label{font-size:10px;font-weight:700;color:#534AB7;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem}
+.code{font-family:'Courier New',monospace;font-size:11.5px;background:#0a0a15;color:#cdd6f4;padding:10px 13px;border-radius:8px;line-height:1.9;white-space:pre-wrap;word-break:break-all;margin-bottom:.8rem;border:1px solid #1e1e3a}
+.kw{color:#89b4fa}
+.fn{color:#a6e3a1}
+.cm{color:#585b70;font-style:italic}
+.st{color:#f9e2af}
+.nm{color:#fab387}
+.ex-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:.8rem}
+.ex-box{background:#0d0d18;border:1px solid #1e1e2e;border-radius:8px;padding:.6rem .8rem;font-size:11px}
+.ex-label{color:#555;font-size:10px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:3px;font-weight:600}
+.ex-val{font-family:'Courier New',monospace;color:#cdd6f4}
+.pitfalls{background:#1e0e0e;border:1px solid #3a1e1e;border-radius:8px;padding:.7rem 1rem;margin-bottom:.5rem}
+.pitfalls h5{font-size:10px;font-weight:700;color:#f56a6a;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem}
+.pitfalls ul{list-style:none;display:flex;flex-direction:column;gap:3px}
+.pitfalls ul li{font-size:11.5px;color:#ddd;padding-left:14px;position:relative}
+.pitfalls ul li::before{content:"⚠";position:absolute;left:0;font-size:9px;top:2px}
+.tip-box{background:#0e1a1e;border:1px solid #1e3a4a;border-radius:8px;padding:.7rem 1rem}
+.tip-box h5{font-size:10px;font-weight:700;color:#6ab0f5;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.4rem}
+.tip-box p{font-size:12px;color:#aaa;line-height:1.6}
+.tip-box b{color:#e2e2f0}
+
+/* COMPARISON TABLE */
+.comp-table{width:100%;border-collapse:collapse;margin-bottom:1rem;font-size:12px}
+.comp-table th{background:#17172a;color:#aaa;font-weight:600;padding:8px 10px;text-align:left;border:1px solid #2a2a3a;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+.comp-table td{padding:8px 10px;border:1px solid #1e1e2e;color:#ccc;vertical-align:top}
+.comp-table tr:nth-child(even) td{background:#0d0d18}
+
+/* PATTERN SEPARATOR */
+.sep{height:1px;background:linear-gradient(to right,#534AB7,transparent);margin:2rem 0}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>🧠 DSA Pattern Recognition — Deep Notes</h1>
+  <p>Click any section in the sidebar. Expand subtypes to see templates, examples, and pitfalls.</p>
+  <div class="pill-row" id="pills"></div>
+</div>
+
+<div class="body">
+<div class="sidebar">
+  <h3>Patterns</h3>
+  <div id="nav"></div>
+</div>
+<div class="content" id="content"></div>
+</div>
+
+<script>
+const PATTERNS = [
+{
+  id:"arrays", icon:"📦", color:"#f5a623", name:"Arrays",
+  tagline:"Foundation of every DSA problem — master indexing, in-place ops, and traversal.",
+  when:["Problem gives a list/array of numbers","Need to find max/min/sum/count","In-place modification required (O(1) space)","Searching or sorting within a fixed structure"],
+  signals:["Keywords: 'in-place', 'without extra space'","Given array, find element meeting condition","Subarray / subsequence / contiguous elements","Index manipulation needed"],
+  subtypes:[
+    {name:"Prefix / Suffix Scan",num:1,diff:"e",
+     desc:"Traverse from one end tracking a running value (max, min, sum, product). Used when decision at index i depends on everything before or after it.",
+     template:`def prefix_scan(arr):
+    result = []
+    running = arr[0]           # or 0, -inf, etc.
+    for i in range(1, len(arr)):
+        running = update(running, arr[i])
+        result.append(running)
+    return result`,
+     ex:[{l:"Problem",v:"Max profit (buy-sell stock)"},{l:"Input",v:"[7,1,5,3,6,4]"},{l:"Output",v:"5"},{l:"Key",v:"Track min_price from left, max(profit) at each step"}],
+     pitfalls:["Off-by-one: initialize with arr[0], not 0","For buy-sell, never update answer before checking condition"],
+     tip:"When answer at index i depends on ALL elements to its left → Prefix scan. To the right → Suffix scan. Both sides → Two-pass."},
+    {name:"In-place Modification",num:2,diff:"e",
+     desc:"Modify the array directly using one or two pointers, without allocating a new array. Critical for O(1) space solutions.",
+     template:`def in_place(arr):
+    write = 0                  # write pointer
+    for read in range(len(arr)):
+        if condition(arr[read]):   # keep this element?
+            arr[write] = arr[read]
+            write += 1
+    return write               # new logical length`,
+     ex:[{l:"Problem",v:"Move zeros to end / Remove duplicates"},{l:"Input",v:"[0,1,0,3,12]"},{l:"Output",v:"[1,3,12,0,0]"},{l:"Key",v:"Write pointer only advances on valid elements"}],
+     pitfalls:["Don't read from write pointer position","Fill trailing positions explicitly (zeros, etc.)","For sorted duplicates: compare with arr[write-1] not arr[write]"],
+     tip:"Write pointer = 'where to place next valid element'. Read pointer = current scan position."},
+    {name:"Index as HashMap",num:3,diff:"m",
+     desc:"When values are in range [0..n-1], use the array itself as a frequency map by negating values at index positions.",
+     template:`def index_as_map(arr):
+    for x in arr:
+        idx = abs(x) - 1       # map value to index
+        arr[idx] = -abs(arr[idx])  # mark visited
+    result = []
+    for i, v in enumerate(arr):
+        if v > 0: result.append(i + 1)  # unmarked = missing
+    return result`,
+     ex:[{l:"Problem",v:"Find all duplicates / missing numbers"},{l:"Input",v:"[4,3,2,7,8,2,3,1]"},{l:"Output",v:"[2,3] (duplicates)"},{l:"Key",v:"Value x → index x-1. If arr[x-1] already negative = duplicate"}],
+     pitfalls:["Values must be 1-indexed for this to work","Always use abs(x) since values may already be negated","Restore array if required by problem"],
+     tip:"This trick reduces O(n) space HashMap to O(1) when values are bounded by array size."},
+    {name:"Kadane's / Running Optimization",num:4,diff:"m",
+     desc:"At each index, decide: start fresh from here, or extend the existing best. Classic example is maximum subarray sum.",
+     template:`def kadane(arr):
+    cur = res = arr[0]
+    for x in arr[1:]:
+        cur = max(x, cur + x)  # extend or restart?
+        res = max(res, cur)    # track global best
+    return res`,
+     ex:[{l:"Problem",v:"Max subarray sum"},{l:"Input",v:"[-2,1,-3,4,-1,2,1,-5,4]"},{l:"Output",v:"6 (subarray [4,-1,2,1])"},{l:"Variant",v:"Max product subarray — track both min and max"}],
+     pitfalls:["Initialize cur=res=arr[0], NOT 0 (handles all-negative arrays)","For max product: track both cur_max and cur_min (negatives flip sign)"],
+     tip:"<b>When to restart?</b> When cur + x < x, i.e., cur < 0. Carrying negative sum only hurts."}
+  ]
+},
+{
+  id:"twoptr", icon:"👉👈", color:"#a8e6cf", name:"Two Pointers",
+  tagline:"Eliminate nested loops. Two pointers converge from opposite ends — O(n) instead of O(n²).",
+  when:["Array or string is sorted (or can be sorted)","Looking for a pair/triplet satisfying a condition","Need to shrink search space from both ends","'Without extra space' requirement"],
+  signals:["Find pair with sum/difference = target","Palindrome check","Remove duplicates in-place","Any 'closest to target' problem on sorted array"],
+  subtypes:[
+    {name:"Opposite Direction (Converging)",num:1,diff:"e",
+     desc:"Left starts at 0, right starts at n-1. Both move inward. Used when you want to explore combinations from both ends simultaneously.",
+     template:`def two_ptr_converge(arr, target):
+    l, r = 0, len(arr) - 1
+    while l < r:
+        val = arr[l] + arr[r]     # or whatever function
+        if val == target:
+            return [l, r]         # found
+        elif val < target:
+            l += 1                # need bigger → move left up
+        else:
+            r -= 1                # need smaller → move right down`,
+     ex:[{l:"Problem",v:"Two Sum on sorted array"},{l:"Input",v:"[2,7,11,15], target=9"},{l:"Output",v:"[0,1]"},{l:"Also used for",v:"Container with water, 3Sum, Reverse array"}],
+     pitfalls:["Array MUST be sorted (or problem guarantees sorted)","l < r not l <= r (avoid same element twice)","For 3Sum: fix first element, then use this pattern on remaining"],
+     tip:"Move the pointer that needs adjustment: sum too small → move left up; sum too large → move right down."},
+    {name:"Same Direction (Slow-Fast)",num:2,diff:"e",
+     desc:"Both pointers start at left and move right. Slow tracks a condition, fast scans. Used for in-place filtering and cycle detection.",
+     template:`def slow_fast(arr):
+    slow = 0                       # write/condition pointer
+    for fast in range(len(arr)):
+        if condition(arr[fast]):   # valid element
+            arr[slow] = arr[fast]
+            slow += 1
+    return slow                    # new length`,
+     ex:[{l:"Problem",v:"Remove duplicates from sorted array"},{l:"Input",v:"[1,1,2,3,3,4]"},{l:"Output",v:"[1,2,3,4], len=4"},{l:"Also used for",v:"Move zeros, remove element, partition"}],
+     pitfalls:["slow starts at 0 and only moves on valid elements","Compare arr[fast] with arr[slow] not arr[slow-1] (off-by-one error)"],
+     tip:"Slow pointer = 'position of last placed valid element'. Fast = current scanner."},
+    {name:"Partitioning (3-way / Dutch National Flag)",num:3,diff:"m",
+     desc:"Three pointers lo, mid, hi partition array into 3 regions in a single pass. Classic for sort 0s 1s 2s.",
+     template:`def three_way(arr):
+    lo = mid = 0
+    hi = len(arr) - 1
+    while mid <= hi:
+        if arr[mid] == 0:          # belongs in left region
+            arr[lo], arr[mid] = arr[mid], arr[lo]
+            lo += 1; mid += 1
+        elif arr[mid] == 1:        # belongs in middle
+            mid += 1
+        else:                      # arr[mid] == 2, right
+            arr[mid], arr[hi] = arr[hi], arr[mid]
+            hi -= 1                # don't advance mid!`,
+     ex:[{l:"Problem",v:"Sort array of 0s, 1s, 2s"},{l:"Input",v:"[2,0,2,1,1,0]"},{l:"Output",v:"[0,0,1,1,2,2]"},{l:"Key",v:"hi-- but mid stays when swapping from right"}],
+     pitfalls:["After swap with hi: do NOT advance mid (swapped value is unexamined)","After swap with lo: advance BOTH lo and mid","Loop condition: mid <= hi not mid < hi"],
+     tip:"Region meanings: [0..lo-1]=0s, [lo..mid-1]=1s, [mid..hi]=unknown, [hi+1..n-1]=2s."},
+    {name:"Two Pointers on Two Arrays (Merge)",num:4,diff:"e",
+     desc:"One pointer per array, both moving forward. Pick the smaller element at each step. Foundation of merge sort's merge step.",
+     template:`def merge_two(a, b):
+    i = j = 0; result = []
+    while i < len(a) and j < len(b):
+        if a[i] <= b[j]:
+            result.append(a[i]); i += 1
+        else:
+            result.append(b[j]); j += 1
+    return result + a[i:] + b[j:]  # append remaining`,
+     ex:[{l:"Problem",v:"Merge two sorted arrays"},{l:"Input",v:"[1,3,5] and [2,4,6]"},{l:"Output",v:"[1,2,3,4,5,6]"},{l:"Also used for",v:"Intersection, union of sorted arrays"}],
+     pitfalls:["Never forget to append the remaining elements after one array is exhausted","For in-place merge in sorted array: fill from the end (back-merge)"],
+     tip:"Back-merge trick: start from the end of both arrays and fill backwards to avoid shifting."}
+  ]
+},
+{
+  id:"prefixsum", icon:"∑", color:"#ffd93d", name:"Prefix Sum",
+  tagline:"Precompute cumulative sums to answer range queries in O(1) instead of O(n).",
+  when:["Multiple range sum queries on same array","Find subarray with sum = target","Equilibrium index / balance point","2D matrix area sum queries"],
+  signals:["'Sum of subarray from l to r'","Count subarrays with specific sum","Equal halves / balance problems","Any 'cumulative' computation"],
+  subtypes:[
+    {name:"1D Prefix Array",num:1,diff:"e",
+     desc:"Build prefix[i] = sum of arr[0..i-1]. Any range sum becomes prefix[r+1] - prefix[l] in O(1).",
+     template:`def build_prefix(arr):
+    n = len(arr)
+    pre = [0] * (n + 1)           # pre[0] = 0 (empty prefix)
+    for i in range(n):
+        pre[i+1] = pre[i] + arr[i]
+    return pre
+
+def range_sum(pre, l, r):
+    return pre[r+1] - pre[l]      # sum arr[l..r] inclusive`,
+     ex:[{l:"Problem",v:"Range sum query"},{l:"Input",v:"arr=[1,2,3,4,5], query(1,3)"},{l:"Output",v:"9 (2+3+4)"},{l:"Key",v:"pre[4]-pre[1] = 10-1 = 9"}],
+     pitfalls:["pre has n+1 elements, not n. pre[0]=0 is sentinel","Range is [l, r] inclusive → pre[r+1] - pre[l]","Off-by-one is the #1 bug here — always verify with small example"],
+     tip:"Think of prefix[i] as 'total sum of first i elements'. Subtract to get any window."},
+    {name:"Prefix Sum + HashMap (Count Subarrays)",num:2,diff:"m",
+     desc:"Combine prefix sums with a HashMap to count subarrays with sum = k. O(n) instead of O(n²).",
+     template:`from collections import defaultdict
+def count_subarrays_sum_k(arr, k):
+    count = defaultdict(int)
+    count[0] = 1              # empty prefix has sum 0
+    prefix = 0
+    result = 0
+    for x in arr:
+        prefix += x
+        result += count[prefix - k]  # how many times did (prefix-k) appear?
+        count[prefix] += 1
+    return result`,
+     ex:[{l:"Problem",v:"Count subarrays with sum = k"},{l:"Input",v:"[1,1,1], k=2"},{l:"Output",v:"2 (indices [0,1] and [1,2])"},{l:"Key",v:"if prefix[j]-prefix[i]=k → subarray i+1..j sums to k"}],
+     pitfalls:["Initialize count[0]=1 before the loop (for subarrays starting at index 0)","Add to result BEFORE updating map (avoid counting self)","For zero-sum subarray: use k=0"],
+     tip:"The magic equation: prefix[j] - prefix[i] = k → prefix[i] = prefix[j] - k. Look up (prefix - k) in map."},
+    {name:"2D Prefix Sum (Matrix)",num:3,diff:"m",
+     desc:"Extend prefix sum to 2D matrices. pre[i][j] = sum of all elements in rectangle from (0,0) to (i-1,j-1).",
+     template:`def build_2d_prefix(mat):
+    m, n = len(mat), len(mat[0])
+    pre = [[0]*(n+1) for _ in range(m+1)]
+    for i in range(1, m+1):
+        for j in range(1, n+1):
+            pre[i][j] = (mat[i-1][j-1]
+                       + pre[i-1][j]
+                       + pre[i][j-1]
+                       - pre[i-1][j-1])  # inclusion-exclusion
+    return pre
+
+def rect_sum(pre, r1, c1, r2, c2):  # (r1,c1) to (r2,c2) inclusive
+    return (pre[r2+1][c2+1] - pre[r1][c2+1]
+          - pre[r2+1][c1] + pre[r1][c1])`,
+     ex:[{l:"Problem",v:"Sum of submatrix from (r1,c1) to (r2,c2)"},{l:"Key Formula",v:"A + D - B - C (inclusion-exclusion)"},{l:"Also used for",v:"Max sum submatrix, count submatrices"}],
+     pitfalls:["Inclusion-exclusion: add top-left corner back after double subtraction","Row and col indices are 1-based in prefix, 0-based in matrix"],
+     tip:"Draw a Venn diagram: big rectangle = sum you want + two overlapping strips - double-counted corner."},
+    {name:"Difference Array (Range Update)",num:4,diff:"m",
+     desc:"Inverse of prefix sum. Apply range updates in O(1), reconstruct with prefix sum in O(n).",
+     template:`def range_update(n, updates):
+    diff = [0] * (n + 1)
+    for l, r, val in updates:
+        diff[l] += val         # start adding val at index l
+        diff[r+1] -= val       # stop adding val after index r
+    
+    # Reconstruct final array
+    result = []
+    running = 0
+    for i in range(n):
+        running += diff[i]
+        result.append(running)
+    return result`,
+     ex:[{l:"Problem",v:"Add val to range [l,r] for multiple queries"},{l:"Input",v:"n=5, updates=[(1,3,2),(2,4,3)]"},{l:"Output",v:"[0,2,5,5,3]"},{l:"Key",v:"Mark start and end+1 of each update, then prefix sum"}],
+     pitfalls:["diff[r+1] not diff[r] (stop AFTER index r)","diff array needs n+1 size for boundary case"],
+     tip:"Think of diff[i] as 'change in value at position i'. Prefix sum reconstructs actual values."}
+  ]
+},
+{
+  id:"sliding", icon:"🪟", color:"#74b9ff", name:"Sliding Window",
+  tagline:"Maintain a window of elements. Avoid recomputing from scratch — add right, remove left.",
+  when:["Contiguous subarray / substring required","'Longest/shortest' subarray with condition","Fixed-size window problems","Any problem about a consecutive sequence"],
+  signals:["'Maximum/minimum sum of K elements'","'Longest substring with at most K distinct'","'Smallest subarray with sum >= S'","Contiguous elements with a constraint"],
+  subtypes:[
+    {name:"Fixed-Size Window",num:1,diff:"e",
+     desc:"Window size K is constant. Slide by removing leftmost and adding new rightmost element. O(n) instead of O(nk).",
+     template:`def fixed_window(arr, k):
+    # Build first window
+    window_val = sum(arr[:k])
+    best = window_val
+    
+    # Slide the window
+    for i in range(k, len(arr)):
+        window_val += arr[i]        # add new right element
+        window_val -= arr[i - k]    # remove old left element
+        best = max(best, window_val)
+    return best`,
+     ex:[{l:"Problem",v:"Max sum subarray of size K"},{l:"Input",v:"[2,1,5,1,3,2], k=3"},{l:"Output",v:"9 ([5,1,3])"},{l:"Also used for",v:"Average of K elements, first negative in window"}],
+     pitfalls:["Build first window separately before the sliding loop","Remove arr[i-k] not arr[i-k+1] (keep track of offset)","Result: use arr[i-k+1..i] as current window"],
+     tip:"The element leaving the window is at index (i - k). The element entering is at index i."},
+    {name:"Variable-Size Window (Expand-Shrink)",num:2,diff:"m",
+     desc:"Window size changes dynamically. Expand right when condition allows, shrink left when condition is violated. Two inner loops but amortized O(n).",
+     template:`def variable_window(arr, target):
+    l = 0
+    window_sum = 0
+    best = 0  # or float('inf') for minimum
+
+    for r in range(len(arr)):
+        window_sum += arr[r]        # EXPAND: include arr[r]
+        
+        while window_sum > target:  # SHRINK: condition violated
+            window_sum -= arr[l]
+            l += 1
+        
+        best = max(best, r - l + 1) # UPDATE: record current window
+    return best`,
+     ex:[{l:"Problem",v:"Longest subarray with sum <= K"},{l:"Input",v:"[3,1,2,1,1,1], k=5"},{l:"Output",v:"5"},{l:"Also used for",v:"Min window substring, max ones with K flips"}],
+     pitfalls:["Shrink BEFORE updating result (for minimum window)","Shrink AFTER updating for maximum window — order matters!","While loop inside for loop: still O(n) amortized since l never goes backwards"],
+     tip:"<b>For max window:</b> update result AFTER shrink. <b>For min window:</b> update result INSIDE while loop."},
+    {name:"Window with HashMap / Counter",num:3,diff:"m",
+     desc:"Track character/element frequencies inside the window using a HashMap. Used for 'at most K distinct', anagram problems.",
+     template:`from collections import defaultdict
+def window_with_map(s, k):
+    freq = defaultdict(int)
+    l = res = 0
+    distinct = 0
+    
+    for r in range(len(s)):
+        if freq[s[r]] == 0: distinct += 1  # new distinct element
+        freq[s[r]] += 1
+        
+        while distinct > k:                 # too many distinct
+            freq[s[l]] -= 1
+            if freq[s[l]] == 0: distinct -= 1
+            l += 1
+        
+        res = max(res, r - l + 1)
+    return res`,
+     ex:[{l:"Problem",v:"Longest substring with at most K distinct chars"},{l:"Input",v:"'eceba', k=2"},{l:"Output",v:"3 ('ece')"},{l:"Also used for",v:"Find all anagrams, min window substring"}],
+     pitfalls:["Decrement frequency BEFORE checking if distinct count decreases","distinct check: freq[char] == 0 after decrement, not before"],
+     tip:"The HashMap tracks the 'state' of the window. When state violates constraint, shrink."},
+    {name:"Monotonic Deque Window",num:4,diff:"h",
+     desc:"Use a deque to maintain elements in sorted order within the window. O(1) max/min queries. Used for sliding window maximum/minimum.",
+     template:`from collections import deque
+def mono_deque_max(arr, k):
+    dq = deque()    # stores INDICES, monotonically decreasing values
+    result = []
+    
+    for i in range(len(arr)):
+        # Remove indices outside window
+        while dq and dq[0] < i - k + 1:
+            dq.popleft()
+        
+        # Maintain decreasing order (remove smaller elements from back)
+        while dq and arr[dq[-1]] < arr[i]:
+            dq.pop()
+        
+        dq.append(i)
+        
+        if i >= k - 1:              # window is full
+            result.append(arr[dq[0]])  # front = max of window
+    return result`,
+     ex:[{l:"Problem",v:"Sliding window maximum"},{l:"Input",v:"[1,3,-1,-3,5,3,6,7], k=3"},{l:"Output",v:"[3,3,5,5,6,7]"},{l:"Key",v:"Deque front always holds index of max in current window"}],
+     pitfalls:["Store indices in deque, not values (need to check window boundary)","Two while loops: one for boundary, one for monotonic order","For minimum: flip the comparison (remove larger from back)"],
+     tip:"Deque stores indices. Front = current window max index. Remove from back before adding: maintains decreasing property."}
+  ]
+},
+{
+  id:"hashmap", icon:"#️⃣", color:"#fd79a8", name:"HashMap",
+  tagline:"Trade O(n) space for O(1) lookup time. Turn nested loops into single-pass solutions.",
+  when:["Need to count frequencies","Find if element exists quickly","Group items by a property","Detect duplicates or pairs"],
+  signals:["'Find two elements that sum to...'","'Count occurrences of...'","'Group by...' or 'first occurrence of...'","Anagrams, frequency analysis"],
+  subtypes:[
+    {name:"Frequency Count",num:1,diff:"e",
+     desc:"Count occurrences of each element. Answer questions about 'how many times', 'most frequent', 'first non-repeating'.",
+     template:`from collections import Counter, defaultdict
+
+# Method 1: Counter (Python)
+freq = Counter(arr)
+
+# Method 2: defaultdict
+freq = defaultdict(int)
+for x in arr: freq[x] += 1
+
+# Method 3: manual
+freq = {}
+for x in arr: freq[x] = freq.get(x, 0) + 1
+
+# Use: first non-repeating
+for c in s:
+    if freq[c] == 1: return c`,
+     ex:[{l:"Problem",v:"First non-repeating character"},{l:"Input",v:"'aabbcde'"},{l:"Output",v:"'c'"},{l:"Also used for",v:"Sort by frequency, most common element"}],
+     pitfalls:["Two-pass: build freq map first, THEN scan for answer","One-pass with OrderedDict in Python for insertion order"],
+     tip:"Counter.most_common(k) gives top k elements. Counter arithmetic: Counter(a) - Counter(b) removes elements."},
+    {name:"Complement Lookup (Two Sum pattern)",num:2,diff:"e",
+     desc:"For each element x, check if its 'complement' (target - x) already exists in the map. Insert x into map after checking.",
+     template:`def complement_lookup(arr, target):
+    seen = {}                          # value → index
+    for i, x in enumerate(arr):
+        complement = target - x
+        if complement in seen:
+            return [seen[complement], i]  # found pair
+        seen[x] = i                    # store AFTER checking
+    return []`,
+     ex:[{l:"Problem",v:"Two Sum"},{l:"Input",v:"[2,7,11,15], target=9"},{l:"Output",v:"[0,1]"},{l:"Key",v:"Check map before inserting to avoid using same element twice"}],
+     pitfalls:["Insert AFTER checking (or you'll match an element with itself)","Store index as value if positions are needed, otherwise just True/False","For count of pairs: don't use index, use frequency map"],
+     tip:"Works for: Two Sum, Four Sum (reduce to Two Sum), count pairs with sum/difference K."},
+    {name:"Prefix Sum HashMap (Subarray Problems)",num:3,diff:"m",
+     desc:"Map prefix sums to their indices/counts. The key insight: if prefix[j] - prefix[i] = k, then subarray (i+1..j) sums to k.",
+     template:`from collections import defaultdict
+def prefix_hashmap(arr, k):
+    count = defaultdict(int)
+    count[0] = 1       # empty prefix
+    prefix = 0
+    result = 0
+    
+    for x in arr:
+        prefix += x
+        result += count[prefix - k]   # how many valid i's?
+        count[prefix] += 1
+    return result
+
+# For zero-sum subarray EXISTS:
+def has_zero_sum(arr):
+    seen = {0}
+    prefix = 0
+    for x in arr:
+        prefix += x
+        if prefix in seen: return True
+        seen.add(prefix)
+    return False`,
+     ex:[{l:"Problem",v:"Count subarrays with sum = k"},{l:"Input",v:"[1,1,1], k=2"},{l:"Output",v:"2"},{l:"Also used for",v:"Zero-sum subarray, longest subarray with sum k"}],
+     pitfalls:["count[0]=1 initialization is critical (subarrays starting at index 0)","For LONGEST subarray: store first occurrence of each prefix sum"],
+     tip:"For LONGEST subarray with sum k: store first index, not count. Return max(result, i - map[prefix-k])."},
+    {name:"Group By Key",num:4,diff:"e",
+     desc:"Use a computed property as HashMap key to group related elements together. Classic for anagram grouping.",
+     template:`from collections import defaultdict
+def group_by_key(items):
+    groups = defaultdict(list)
+    for item in items:
+        key = compute_key(item)   # sorted string, tuple, etc.
+        groups[key].append(item)
+    return list(groups.values())
+
+# Examples of keys:
+# Anagrams: key = tuple(sorted(word))
+# Same frequency: key = tuple(sorted(Counter(word).items()))
+# Same digit sum: key = sum of digits`,
+     ex:[{l:"Problem",v:"Group anagrams"},{l:"Input",v:"['eat','tea','tan','ate','nat']"},{l:"Output",v:"[['eat','tea','ate'],['tan','nat']]"},{l:"Key",v:"tuple(sorted(word)) — same for all anagrams"}],
+     pitfalls:["Key must be hashable — use tuple not list","For floating point keys, round to avoid precision issues"],
+     tip:"Pattern: 'group items that are EQUIVALENT under some transformation' → defaultdict + computed key."}
+  ]
+},
+{
+  id:"strings", icon:"🔤", color:"#a29bfe", name:"String Manipulation",
+  tagline:"Strings are just arrays of characters. Most string problems reduce to array patterns.",
+  when:["Input is a string or array of strings","Pattern matching, reversal, transformation","Counting characters or words","Encoding, compression, anagram checks"],
+  signals:["Palindrome, reversal, rotation checks","Anagram or permutation questions","Substring / subsequence problems","Character frequency analysis"],
+  subtypes:[
+    {name:"Two Pointer Traversal",num:1,diff:"e",
+     desc:"Palindrome checks, reversal, and comparison problems. Left and right pointers scan from both ends.",
+     template:`def palindrome_check(s):
+    l, r = 0, len(s) - 1
+    while l < r:
+        # Skip non-alphanumeric if needed
+        while l < r and not s[l].isalnum(): l += 1
+        while l < r and not s[r].isalnum(): r -= 1
+        if s[l].lower() != s[r].lower(): return False
+        l += 1; r -= 1
+    return True`,
+     ex:[{l:"Problem",v:"Valid palindrome (ignore spaces/punct)"},{l:"Input",v:"'A man, a plan, a canal: Panama'"},{l:"Output",v:"True"},{l:"Key",v:"Skip non-alphanumeric chars before comparing"}],
+     pitfalls:["Handle case-insensitivity: s[l].lower() != s[r].lower()","Skip non-alpha INSIDE the while loop, not outside"],
+     tip:"Expand-from-center for FINDING palindromes. Two-pointer-converge for CHECKING palindromes."},
+    {name:"Sliding Window on String",num:2,diff:"m",
+     desc:"Variable or fixed window over characters. Track character frequencies in window using array[26] or Counter.",
+     template:`from collections import Counter
+def find_anagram_positions(s, p):
+    pcount = Counter(p)
+    wcount = Counter(s[:len(p)])
+    result = []
+    if pcount == wcount: result.append(0)
+    
+    for i in range(len(p), len(s)):
+        # Add new char
+        wcount[s[i]] += 1
+        # Remove old char
+        old = s[i - len(p)]
+        if wcount[old] == 1: del wcount[old]
+        else: wcount[old] -= 1
+        
+        if wcount == pcount:
+            result.append(i - len(p) + 1)
+    return result`,
+     ex:[{l:"Problem",v:"Find all anagram positions in string"},{l:"Input",v:"s='cbaebabacd', p='abc'"},{l:"Output",v:"[0, 6]"},{l:"Key",v:"Window size = len(p). Compare frequency maps"}],
+     pitfalls:["Delete key from Counter when count drops to 0 (for equality check)","Or use array[26] instead of Counter for faster comparison O(26) = O(1)"],
+     tip:"Using array[26] instead of Counter allows O(1) comparison. int[26] indexed by ord(c)-ord('a')."},
+    {name:"String Building / Transformation",num:3,diff:"e",
+     desc:"Build output string character by character using stack, deque, or result list. Avoid string concatenation (O(n²)) — use list + join.",
+     template:`def string_transform(s):
+    result = []              # NOT result = "" (that's O(n²))
+    
+    for c in s:
+        if should_keep(c):
+            result.append(c)
+        elif should_modify(c):
+            result.append(transform(c))
+        # skip if neither
+    
+    return ''.join(result)   # O(n) join at end`,
+     ex:[{l:"Problem",v:"Remove all vowels / compress string / keylogger"},{l:"Keylogger",v:"'#' = backspace → stack approach"},{l:"Input",v:"'ab#c' → 'ac'"},{l:"Key",v:"Stack: push chars, '#' pops last char"}],
+     pitfalls:["String += char is O(n²) total — always use list.append + ''.join","For backspace: use stack, pop on '#', but check stack not empty first"],
+     tip:"Keylogger / backspace problem: use a stack. Push valid chars, pop on backspace character."},
+    {name:"Substring / Pattern Matching",num:4,diff:"m",
+     desc:"Find if / where a pattern exists in a string. Python 'in' operator is O(n*m). KMP is O(n+m) for advanced problems.",
+     template:`# Simple: use Python's built-in
+if pattern in text: ...
+
+# Check rotation:
+def is_rotation(s1, s2):
+    return len(s1) == len(s2) and s2 in (s1 + s1)
+
+# Longest common prefix:
+def lcp(strs):
+    prefix = strs[0]
+    for s in strs[1:]:
+        while not s.startswith(prefix):
+            prefix = prefix[:-1]
+            if not prefix: return ""
+    return prefix`,
+     ex:[{l:"Problem",v:"Check if s2 is rotation of s1"},{l:"Input",v:"s1='abcde', s2='cdeab'"},{l:"Output",v:"True (s1+s1 contains s2)"},{l:"LCP",v:"Shrink prefix until all strings start with it"}],
+     pitfalls:["Rotation check: must check length equality first","LCP: return early if prefix becomes empty string"],
+     tip:"Rotation trick: s2 is a rotation of s1 ↔ s2 appears in s1+s1. Elegant O(n) solution."}
+  ]
+},
+{
+  id:"sorting", icon:"📊", color:"#55efc4", name:"Sorting",
+  tagline:"Sorting transforms chaos into order — enabling binary search, two pointers, and greedy solutions.",
+  when:["Problem becomes easier if elements are ordered","Need to eliminate duplicate work","Finding closest / farthest pairs","Greedy problems needing ordered processing"],
+  signals:["Kth largest/smallest element","Sorting by custom comparator","Merge two sorted arrays","Anagram grouping (sort as key)"],
+  subtypes:[
+    {name:"Comparison-Based Sort (Merge/Quick)",num:1,diff:"m",
+     desc:"General-purpose sorting. Merge sort is stable O(n log n). Quick sort is average O(n log n) but O(n²) worst case.",
+     template:`# Merge Sort — stable, O(n log n) always
+def merge_sort(arr):
+    if len(arr) <= 1: return arr
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    return merge(left, right)
+
+def merge(l, r):
+    res = []; i = j = 0
+    while i < len(l) and j < len(r):
+        if l[i] <= r[j]: res.append(l[i]); i += 1
+        else: res.append(r[j]); j += 1
+    return res + l[i:] + r[j:]`,
+     ex:[{l:"Merge Sort",v:"O(n log n) guaranteed, stable, O(n) space"},{l:"Quick Sort",v:"O(n log n) avg, O(1) space, unstable"},{l:"Timsort",v:"Python's built-in, hybrid merge+insertion"}],
+     pitfalls:["Merge sort uses O(n) extra space","For counting inversions: count during merge step when r[j] < l[i]"],
+     tip:"Merge sort is best for 'count inversions'. Quick sort is best for in-place with average performance."},
+    {name:"Counting Sort / Bucket Sort",num:2,diff:"e",
+     desc:"When values are bounded (0 to k), sort in O(n + k) time. No comparisons needed.",
+     template:`def counting_sort(arr, max_val):
+    count = [0] * (max_val + 1)
+    for x in arr: count[x] += 1
+    
+    result = []
+    for val, freq in enumerate(count):
+        result.extend([val] * freq)
+    return result
+
+# Sort 0s 1s 2s: counting sort with k=2
+def sort_012(arr):
+    c = [0, 0, 0]
+    for x in arr: c[x] += 1
+    return [0]*c[0] + [1]*c[1] + [2]*c[2]`,
+     ex:[{l:"Problem",v:"Sort array of 0s, 1s, 2s"},{l:"Problem 2",v:"Sort characters by frequency"},{l:"Key",v:"Values must be small integers (bounded range)"}],
+     pitfalls:["Only works when value range (k) is small","Not suitable for floating point or unbounded integers"],
+     tip:"If values are in range [0, n] or [0, 26 for chars], counting sort gives O(n) — far better than O(n log n)."},
+    {name:"Sort by Custom Comparator",num:3,diff:"m",
+     desc:"Use Python's key= parameter or functools.cmp_to_key for complex sort orders.",
+     template:`from functools import cmp_to_key
+
+# Sort by frequency, then alphabetically
+arr.sort(key=lambda x: (-freq[x], x))
+
+# Sort intervals by start time
+intervals.sort(key=lambda x: x[0])
+
+# Sort by multiple criteria
+jobs.sort(key=lambda x: (x[1], -x[2]))  # end asc, profit desc
+
+# Custom comparator (for 'largest number' type problems)
+def cmp(a, b):
+    if a+b > b+a: return -1   # a comes first
+    elif a+b < b+a: return 1
+    return 0
+arr.sort(key=cmp_to_key(cmp))`,
+     ex:[{l:"Problem",v:"Largest number from array of ints"},{l:"Input",v:"[3,30,34,5,9]"},{l:"Output",v:"'9534330'"},{l:"Key",v:"Compare '3'+'30' vs '30'+'3' → '330' > '303' → 3 first"}],
+     pitfalls:["cmp_to_key needed for comparator functions in Python 3","For 'largest number': compare string concatenations, not values"],
+     tip:"Python's sort is stable (equal elements maintain order). Use tuple keys for multi-level sorting."},
+    {name:"Kth Largest / Smallest (Heap)",num:4,diff:"m",
+     desc:"Don't sort the whole array. Use a heap of size k for O(n log k) time — much better than O(n log n) when k is small.",
+     template:`import heapq
+
+def kth_largest(arr, k):
+    # Min-heap of size k
+    heap = arr[:k]
+    heapq.heapify(heap)        # O(k)
+    
+    for x in arr[k:]:
+        if x > heap[0]:        # larger than current min
+            heapq.heapreplace(heap, x)  # O(log k)
+    
+    return heap[0]             # min of top-k = kth largest
+
+# Top K frequent elements
+def top_k_freq(arr, k):
+    freq = Counter(arr)
+    return heapq.nlargest(k, freq.keys(), key=freq.get)`,
+     ex:[{l:"Problem",v:"Kth largest element"},{l:"Input",v:"[3,2,1,5,6,4], k=2"},{l:"Output",v:"5"},{l:"Complexity",v:"O(n log k) vs O(n log n) for full sort"}],
+     pitfalls:["Python heapq is a min-heap. For kth largest: keep min-heap of size k","heapreplace is more efficient than heappop + heappush"],
+     tip:"Kth largest → min-heap of size k (keep top k, heap top = answer). Kth smallest → max-heap of size k (negate values)."}
+  ]
+},
+{
+  id:"mergeiv", icon:"📅", color:"#e17055", name:"Merge Intervals",
+  tagline:"Sort intervals by start time — then merge, insert, or count overlaps in a single pass.",
+  when:["Input contains ranges / intervals","Need to find overlaps or gaps","Scheduling / calendar problems","Meeting rooms, time conflicts"],
+  signals:["Array of [start, end] pairs","'Overlapping ranges'","'Minimum platforms / rooms needed'","'Non-overlapping intervals'"],
+  subtypes:[
+    {name:"Merge Overlapping Intervals",num:1,diff:"m",
+     desc:"Sort by start time. Greedily merge: if current interval overlaps with last merged, extend the end. Otherwise, start a new merged interval.",
+     template:`def merge(intervals):
+    intervals.sort(key=lambda x: x[0])  # sort by start
+    merged = [intervals[0]]
+    
+    for start, end in intervals[1:]:
+        last = merged[-1]
+        if start <= last[1]:            # OVERLAP condition
+            last[1] = max(last[1], end) # extend end
+        else:
+            merged.append([start, end]) # no overlap, new interval
+    
+    return merged`,
+     ex:[{l:"Problem",v:"Merge overlapping intervals"},{l:"Input",v:"[[1,3],[2,6],[8,10],[15,18]]"},{l:"Output",v:"[[1,6],[8,10],[15,18]]"},{l:"Overlap",v:"start <= prev_end (touching counts as overlap)"}],
+     pitfalls:["Sort FIRST — without sorting this doesn't work","Overlap: start <= last[1], not start < last[1] (touching intervals merge)","Take max of ends, not just use current end"],
+     tip:"After sorting: prev.end >= curr.start means overlap. New end = max(prev.end, curr.end) (curr may be fully inside prev)."},
+    {name:"Insert Interval",num:2,diff:"m",
+     desc:"Three-phase approach: (1) add all intervals before new one, (2) merge overlapping, (3) add remaining.",
+     template:`def insert(intervals, new):
+    result = []
+    i = 0
+    n = len(intervals)
+    
+    # Phase 1: add all intervals ending before new starts
+    while i < n and intervals[i][1] < new[0]:
+        result.append(intervals[i]); i += 1
+    
+    # Phase 2: merge all overlapping intervals into new
+    while i < n and intervals[i][0] <= new[1]:
+        new[0] = min(new[0], intervals[i][0])
+        new[1] = max(new[1], intervals[i][1])
+        i += 1
+    result.append(new)
+    
+    # Phase 3: add remaining intervals
+    return result + intervals[i:]`,
+     ex:[{l:"Problem",v:"Insert [2,5] into [[1,3],[6,9]]"},{l:"Output",v:"[[1,5],[6,9]]"},{l:"Phase 1",v:"[[1,3]] ends before 2? No. Phase 1 empty."},{l:"Phase 2",v:"[1,3] overlaps [2,5]? Yes. Merge → [1,5]"}],
+     pitfalls:["Phase 1 condition: intervals[i][1] < new[0] (strictly before, not touching)","Phase 2 condition: intervals[i][0] <= new[1] (overlapping or touching)"],
+     tip:"The 3-phase structure is clean and handles all edge cases. Memorize it."},
+    {name:"Count Overlapping Intervals (Meeting Rooms)",num:3,diff:"m",
+     desc:"Sort start and end times separately. Use two pointers to simulate a timeline — count maximum simultaneous overlaps.",
+     template:`def min_meeting_rooms(intervals):
+    starts = sorted(x[0] for x in intervals)
+    ends   = sorted(x[1] for x in intervals)
+    
+    rooms = 0
+    e = 0   # pointer into ends array
+    
+    for s in starts:         # process each meeting start
+        if s < ends[e]:      # meeting not done yet → new room
+            rooms += 1
+        else:                # a meeting ended → reuse room
+            e += 1
+    return rooms`,
+     ex:[{l:"Problem",v:"Minimum meeting rooms needed"},{l:"Input",v:"[[0,30],[5,10],[15,20]]"},{l:"Output",v:"2"},{l:"Intuition",v:"rooms = max concurrent meetings at any time"}],
+     pitfalls:["Two separate sorted arrays (not sort intervals as pairs)","s < ends[e] not s <= ends[e]: if a meeting ends exactly when another starts, reuse room"],
+     tip:"This is equivalent to finding the maximum 'depth' of overlapping intervals — a classic sweep-line technique."},
+    {name:"Non-Overlapping Intervals (Greedy)",num:4,diff:"m",
+     desc:"Find minimum intervals to REMOVE to make all remaining non-overlapping. Sort by end time, greedily keep earliest-ending intervals.",
+     template:`def erase_overlap(intervals):
+    intervals.sort(key=lambda x: x[1])  # sort by END time
+    
+    removed = 0
+    last_end = float('-inf')
+    
+    for start, end in intervals:
+        if start >= last_end:    # no overlap → keep it
+            last_end = end
+        else:                    # overlap → remove current
+            removed += 1
+    
+    return removed`,
+     ex:[{l:"Problem",v:"Min intervals to remove for non-overlapping"},{l:"Input",v:"[[1,2],[2,3],[3,4],[1,3]]"},{l:"Output",v:"1 (remove [1,3])"},{l:"Greedy",v:"Always keep the interval with smallest end time"}],
+     pitfalls:["Sort by END time, NOT start time (greedy reason: small end = more room for future)","Compare start >= last_end (not >): touching intervals are allowed"],
+     tip:"This is the Activity Selection problem. Sort by end, greedily pick non-overlapping → minimum removals = n - max_kept."}
+  ]
+},
+{
+  id:"anagrams", icon:"🔀", color:"#fdcb6e", name:"Anagrams",
+  tagline:"Anagram = same characters, different order. Detect with frequency maps or sorting.",
+  when:["Check if two strings have same characters","Group strings that are rearrangements","Find permutation substrings","Count character rearrangements"],
+  signals:["'Same characters, different order'","'Permutation of string'","'Rearrange characters'","'Find all anagrams in string'"],
+  subtypes:[
+    {name:"Check Anagram (Two Strings)",num:1,diff:"e",
+     desc:"Two strings are anagrams if they have identical character frequencies. Three approaches: sort, Counter, or frequency array.",
+     template:`from collections import Counter
+
+# Method 1: Sort and compare — O(n log n)
+def is_anagram_sort(s, t):
+    return sorted(s) == sorted(t)
+
+# Method 2: Counter — O(n)
+def is_anagram_counter(s, t):
+    return Counter(s) == Counter(t)
+
+# Method 3: Frequency array — O(n), O(1) space
+def is_anagram_freq(s, t):
+    if len(s) != len(t): return False
+    freq = [0] * 26
+    for a, b in zip(s, t):
+        freq[ord(a) - ord('a')] += 1
+        freq[ord(b) - ord('a')] -= 1
+    return all(f == 0 for f in freq)`,
+     ex:[{l:"Problem",v:"Check if two strings are anagrams"},{l:"Input",v:"'anagram', 'nagaram'"},{l:"Output",v:"True"},{l:"Best",v:"Freq array O(n) time, O(1) space"}],
+     pitfalls:["Always check length equality first (quick reject)","Unicode chars: use Counter, not freq array of 26"],
+     tip:"Freq array method: increment for s, decrement for t. All zeros at end = anagram. O(1) space since array is fixed size 26."},
+    {name:"Group Anagrams",num:2,diff:"m",
+     desc:"Use a canonical form as the HashMap key. All anagrams map to the same key — sort each string, or use frequency tuple.",
+     template:`from collections import defaultdict
+
+def group_anagrams(words):
+    groups = defaultdict(list)
+    for w in words:
+        key = tuple(sorted(w))      # canonical form
+        groups[key].append(w)
+    return list(groups.values())
+
+# Alternative key: frequency tuple (for large alphabets)
+def group_anagrams_v2(words):
+    groups = defaultdict(list)
+    for w in words:
+        freq = [0] * 26
+        for c in w: freq[ord(c)-ord('a')] += 1
+        key = tuple(freq)           # unique per anagram group
+        groups[key].append(w)
+    return list(groups.values())`,
+     ex:[{l:"Input",v:"['eat','tea','tan','ate','nat','bat']"},{l:"Output",v:"[['eat','tea','ate'],['tan','nat'],['bat']]"},{l:"Key",v:"sorted('eat')=sorted('tea')=sorted('ate')='aet'"}],
+     pitfalls:["Key must be immutable (hashable) — use tuple, not list","tuple(sorted(w)) and tuple(freq_array) are both valid keys"],
+     tip:"Two strings are in same group ↔ they map to same canonical key. Any deterministic transformation works."},
+    {name:"Find Anagram Substrings (Sliding Window)",num:3,diff:"m",
+     desc:"Fixed sliding window of size len(p) over string s. Compare window's character frequencies with pattern's frequencies.",
+     template:`from collections import Counter
+
+def find_anagram_positions(s, p):
+    if len(p) > len(s): return []
+    
+    p_count = Counter(p)
+    w_count = Counter(s[:len(p)])
+    result = []
+    
+    if p_count == w_count: result.append(0)
+    
+    for i in range(len(p), len(s)):
+        # Add new right character
+        w_count[s[i]] += 1
+        
+        # Remove old left character
+        left_char = s[i - len(p)]
+        w_count[left_char] -= 1
+        if w_count[left_char] == 0:
+            del w_count[left_char]   # keep Counter clean
+        
+        if w_count == p_count:
+            result.append(i - len(p) + 1)
+    
+    return result`,
+     ex:[{l:"Input",v:"s='cbaebabacd', p='abc'"},{l:"Output",v:"[0, 6]"},{l:"Window",v:"Fixed size = len(p)"},{l:"Check",v:"w_count == p_count at each position"}],
+     pitfalls:["Delete key when count hits 0 (for correct Counter equality)","Or use int array[26] — comparison is always O(26)=O(1) vs O(k) Counter"],
+     tip:"Optimization: track 'matches' count (how many chars match p_count). Increment/decrement on each window slide."},
+    {name:"Minimum Window Containing All Characters",num:4,diff:"h",
+     desc:"Variable window: expand right to cover all pattern chars, then shrink left to minimize window. Classic hard problem.",
+     template:`from collections import Counter
+
+def min_window(s, t):
+    need = Counter(t)
+    missing = len(t)            # how many chars still needed
+    l = 0
+    result = ""
+    
+    for r, c in enumerate(s):
+        # Expand: include s[r]
+        if need[c] > 0: missing -= 1  # one more needed char found
+        need[c] -= 1
+        
+        # Shrink: while all chars covered
+        while missing == 0:
+            # Update result
+            if not result or r - l + 1 < len(result):
+                result = s[l:r+1]
+            
+            need[s[l]] += 1
+            if need[s[l]] > 0: missing += 1  # lost a needed char
+            l += 1
+    
+    return result`,
+     ex:[{l:"Input",v:"s='ADOBECODEBANC', t='ABC'"},{l:"Output",v:"'BANC'"},{l:"Key",v:"missing=0 means window covers all of t"},{l:"Shrink",v:"When missing=0, try to minimize window"}],
+     pitfalls:["need[c] > 0 check: only decrement missing for NEEDED chars (not over-satisfied)","need[s[l]] > 0 check: only increment missing when we lose a NEEDED char"],
+     tip:"'missing' variable tracks how many pattern chars are still unmet. This avoids re-counting the entire window on each slide."}
+  ]
+},
+{
+  id:"matrix", icon:"🔲", color:"#81ecec", name:"Matrix",
+  tagline:"2D arrays = grids. Master traversal directions, boundary checks, and BFS/DFS on cells.",
+  when:["Input is a 2D grid / matrix","Pathfinding, flood fill, island counting","Rotation, transposition problems","Diagonal or spiral traversal"],
+  signals:["'Grid', 'matrix', '2D array'","Count connected components","'Rotate/transpose the matrix'","'Spiral order', 'diagonal traversal'"],
+  subtypes:[
+    {name:"Matrix Traversal (Row/Col/Diagonal/Spiral)",num:1,diff:"m",
+     desc:"Different traversal patterns: row-by-row, column-by-column, diagonal (i+j=const or i-j=const), and spiral (4-boundary shrink).",
+     template:`# Spiral traversal
+def spiral(m):
+    res = []
+    t, b, l, r = 0, len(m)-1, 0, len(m[0])-1
+    while t <= b and l <= r:
+        for i in range(l, r+1): res.append(m[t][i]); t += 1  # top row
+        for i in range(t, b+1): res.append(m[i][r]); r -= 1  # right col
+        if t <= b:
+            for i in range(r, l-1, -1): res.append(m[b][i]); b -= 1  # bottom
+        if l <= r:
+            for i in range(b, t-1, -1): res.append(m[i][l]); l += 1  # left
+    return res
+
+# Diagonal traversal (i+j = const)
+from collections import defaultdict
+def diagonal(m):
+    d = defaultdict(list)
+    for i in range(len(m)):
+        for j in range(len(m[0])): d[i+j].append(m[i][j])
+    res = []
+    for k in sorted(d): res += d[k][::-1] if k%2==0 else d[k]
+    return res`,
+     ex:[{l:"Spiral",v:"4 boundaries shrink inward after each direction"},{l:"Diagonal",v:"Same i+j = same diagonal. Alternate direction each time"},{l:"Anti-diagonal",v:"Same i-j = same anti-diagonal"}],
+     pitfalls:["Spiral: check t<=b and l<=r before bottom-row and left-col sweeps","Diagonal direction alternation: even diagonal index = reverse, odd = forward"],
+     tip:"Spiral has 4 boundaries. After sweeping each direction, shrink that boundary. Check bounds before each direction except first two."},
+    {name:"In-place Rotation and Transpose",num:2,diff:"m",
+     desc:"Rotate matrix 90° clockwise = Transpose + Reverse each row. Rotate 90° anticlockwise = Transpose + Reverse each column.",
+     template:`def rotate_90_clockwise(m):
+    n = len(m)
+    # Step 1: Transpose (swap across main diagonal)
+    for i in range(n):
+        for j in range(i+1, n):
+            m[i][j], m[j][i] = m[j][i], m[i][j]
+    
+    # Step 2: Reverse each row
+    for row in m: row.reverse()
+    return m
+
+def rotate_90_anticlockwise(m):
+    n = len(m)
+    # Step 1: Transpose
+    for i in range(n):
+        for j in range(i+1, n):
+            m[i][j], m[j][i] = m[j][i], m[i][j]
+    
+    # Step 2: Reverse each COLUMN (not row)
+    for col in range(n):
+        m[:][col]  # reverse column
+    m.reverse()   # simpler: reverse rows order = reverse each col`,
+     ex:[{l:"Input",v:"[[1,2,3],[4,5,6],[7,8,9]]"},{l:"90° CW",v:"[[7,4,1],[8,5,2],[9,6,3]]"},{l:"Key",v:"Transpose: (i,j)↔(j,i). Reverse rows: clockwise."}],
+     pitfalls:["j starts from i+1 in transpose (not 0) to avoid double-swapping","Anticlockwise: reverse column order (m.reverse()) after transpose"],
+     tip:"Memorize: CW = Transpose + reverse rows. CCW = Transpose + reverse cols (or reverse rows + Transpose)."},
+    {name:"BFS / DFS on Grid (Flood Fill / Islands)",num:3,diff:"m",
+     desc:"Treat each cell as a graph node. BFS for shortest path, DFS for connectivity/flood fill. 4 or 8 directional movement.",
+     template:`# DFS approach (flood fill)
+def dfs(grid, i, j, visited):
+    if (i < 0 or i >= len(grid) or
+        j < 0 or j >= len(grid[0]) or
+        grid[i][j] == '0' or visited[i][j]):
+        return
+    visited[i][j] = True
+    for di, dj in [(0,1),(0,-1),(1,0),(-1,0)]:
+        dfs(grid, i+di, j+dj, visited)
+
+def count_islands(grid):
+    visited = [[False]*len(grid[0]) for _ in grid]
+    count = 0
+    for i in range(len(grid)):
+        for j in range(len(grid[0])):
+            if grid[i][j] == '1' and not visited[i][j]:
+                dfs(grid, i, j, visited)
+                count += 1
+    return count`,
+     ex:[{l:"Problem",v:"Count islands, flood fill, walls/gates"},{l:"Directions",v:"4-dir: up/down/left/right. 8-dir: + diagonals"},{l:"BFS",v:"Use deque for shortest path on grid"}],
+     pitfalls:["Always check bounds BEFORE accessing grid[i][j]","Mark visited BEFORE adding to BFS queue (not after popping)","For in-place: mark visited by changing value (e.g., '1'→'0')"],
+     tip:"Order of bounds check matters: check i<0 BEFORE grid[i][j] to avoid index error. Use 'and' short-circuit."},
+    {name:"Matrix Binary Search",num:4,diff:"m",
+     desc:"Search in matrices where rows/cols are sorted. Top-right corner trick: move left if too big, move down if too small.",
+     template:`# Search in row+col sorted matrix — O(m+n)
+def search_matrix(mat, target):
+    r, c = 0, len(mat[0]) - 1   # start at TOP-RIGHT
+    while r < len(mat) and c >= 0:
+        if mat[r][c] == target: return True
+        elif mat[r][c] > target: c -= 1   # go left
+        else: r += 1                       # go down
+    return False
+
+# Search in fully sorted matrix (rows concat = sorted) — O(log mn)
+def search_sorted_matrix(mat, target):
+    m, n = len(mat), len(mat[0])
+    lo, hi = 0, m*n - 1
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        val = mat[mid // n][mid % n]  # convert 1D index to 2D
+        if val == target: return True
+        elif val < target: lo = mid + 1
+        else: hi = mid - 1
+    return False`,
+     ex:[{l:"Row+Col sorted",v:"Top-right corner → O(m+n)"},{l:"Fully sorted",v:"Binary search with index mapping → O(log mn)"},{l:"Index map",v:"row = mid//n, col = mid%n"}],
+     pitfalls:["Two different matrix types: row+col sorted vs fully sorted (rows concatenated)","Fully sorted: index mapping mid//n, mid%n is the key formula"],
+     tip:"Top-right corner is the only position where moving left decreases AND moving down increases. It's the 'pivot point' for elimination."}
+  ]
+}
+];
+
+let activePattern = 'arrays';
+let activeDiff = 'all';
+
+function buildNav() {
+  const nav = document.getElementById('nav');
+  const pills = document.getElementById('pills');
+  PATTERNS.forEach(p => {
+    // Sidebar nav
+    const div = document.createElement('div');
+    div.className = 'nav-item' + (p.id === activePattern ? ' active' : '');
+    div.id = 'nav-' + p.id;
+    div.innerHTML = `<span style="font-size:14px">${p.icon}</span><span>${p.name}</span>`;
+    div.onclick = () => scrollTo(p.id);
+    nav.appendChild(div);
+    // Pills
+    const pill = document.createElement('button');
+    pill.className = 'pill' + (p.id === activePattern ? ' on' : '');
+    pill.id = 'pill-' + p.id;
+    pill.textContent = p.name;
+    pill.onclick = () => scrollTo(p.id);
+    pills.appendChild(pill);
+  });
+}
+
+function scrollTo(id) {
+  document.getElementById('sec-' + id).scrollIntoView({behavior:'smooth'});
+}
+
+function buildContent() {
+  const content = document.getElementById('content');
+  PATTERNS.forEach((p, pi) => {
+    const sec = document.createElement('div');
+    sec.className = 'pcard';
+    sec.id = 'sec-' + p.id;
+
+    const whenItems = p.when.map(w => `<li>${w}</li>`).join('');
+    const kwItems = p.signals.slice(0,4).map(s => `<li>${s}</li>`).join('');
+    const signalItems = p.signals.slice(0,4).map(s => `<li>${s}</li>`).join('');
+
+    let subtypesHTML = p.subtypes.map((st, si) => {
+      const dc = st.diff==='e'?'diff-e':st.diff==='m'?'diff-m':'diff-h';
+      const dl = st.diff==='e'?'Easy':st.diff==='m'?'Medium':'Hard';
+      const exHTML = st.ex.map(e => `<div class="ex-box"><div class="ex-label">${e.l}</div><div class="ex-val">${e.v}</div></div>`).join('');
+      const pitHTML = st.pitfalls.map(x => `<li>${x}</li>`).join('');
+      return `
+        <div class="sub" id="${p.id}-sub-${si}">
+          <div class="sub-hdr" onclick="toggleSub('${p.id}-sub-${si}')">
+            <h3>${st.name}</h3>
+            <span class="sub-num">Type ${st.num}</span>
+            <span class="sub-diff ${dc}">${dl}</span>
+            <span class="sub-chv">▼</span>
+          </div>
+          <div class="sub-body">
+            <p class="sub-desc">${st.desc}</p>
+            <div class="template-label">Code Template</div>
+            <div class="code">${escHtml(st.template)}</div>
+            <div class="ex-row">${exHTML}</div>
+            <div class="pitfalls">
+              <h5>⚠ Common Pitfalls</h5>
+              <ul>${pitHTML}</ul>
+            </div>
+            <div class="tip-box">
+              <h5>💡 Recognition Tip</h5>
+              <p>${st.tip}</p>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    sec.innerHTML = `
+      <div class="pcard-hdr">
+        <div class="pcard-icon">${p.icon}</div>
+        <div class="pcard-meta">
+          <h2>${p.name}</h2>
+          <p>${p.tagline}</p>
+          <div class="tags">
+            <span class="tag tag-when">🎯 ${p.subtypes.length} subtypes</span>
+          </div>
+        </div>
+      </div>
+      <div class="when-box">
+        <h4>🟢 When to Use This Pattern</h4>
+        <ul class="when-list">${p.when.map(w=>`<li>${w}</li>`).join('')}</ul>
+      </div>
+      <div class="signals">
+        <div class="sig-box">
+          <h4>🔍 Problem Signals / Keywords</h4>
+          <ul class="sig-list">${p.signals.map(s=>`<li>${s}</li>`).join('')}</ul>
+        </div>
+        <div class="sig-box">
+          <h4>📋 Subtypes in this Pattern</h4>
+          <ul class="sig-list">${p.subtypes.map(st=>`<li><b>${st.name}</b> — ${st.diff==='e'?'Easy':st.diff==='m'?'Medium':'Hard'}</li>`).join('')}</ul>
+        </div>
+      </div>
+      <div class="subtypes">${subtypesHTML}</div>
+      ${pi < PATTERNS.length-1 ? '<div class="sep"></div>' : ''}
+    `;
+    content.appendChild(sec);
+  });
+}
+
+function toggleSub(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// Intersection Observer for active nav highlight
+function setupObserver() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id.replace('sec-','');
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        document.querySelectorAll('.pill').forEach(n => n.classList.remove('on'));
+        const navEl = document.getElementById('nav-'+id);
+        const pillEl = document.getElementById('pill-'+id);
+        if (navEl) navEl.classList.add('active');
+        if (pillEl) pillEl.classList.add('on');
+      }
+    });
+  }, {threshold: 0.2});
+  PATTERNS.forEach(p => {
+    const el = document.getElementById('sec-'+p.id);
+    if (el) obs.observe(el);
+  });
+}
+
+buildNav();
+buildContent();
+setupObserver();
+</script>
+</body>
+</html>
