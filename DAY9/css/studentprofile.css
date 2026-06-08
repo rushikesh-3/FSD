@@ -1,0 +1,15 @@
+.profile-image{
+    width:150px;
+    height:150px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    object-fit:cover;
+}
+
+.card{
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0, 0.2);
+}
+.student-container{
+    
+}
