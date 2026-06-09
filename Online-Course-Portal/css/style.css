@@ -1,0 +1,136 @@
+body{
+font-family: Arial, sans-serif;
+}
+
+.hero-img{
+height: 600px;
+object-fit: cover;
+filter: brightness(50%);
+}
+
+.carousel-caption{
+bottom: 30%;
+}
+
+.carousel-caption h1{
+font-size: 3rem;
+font-weight: bold;
+}
+
+.card img{
+height: 220px;
+object-fit: cover;
+}
+
+.card{
+transition: 0.4s;
+}
+
+.card:hover{
+transform: translateY(-10px);
+}
+
+footer a{
+text-decoration: none;
+}
+
+footer a:hover{
+color: yellow;
+}
+
+@media(max-width:768px){
+
+.hero-img{
+height: 400px;
+}
+
+.carousel-caption h1{
+font-size: 2rem;
+}
+
+}
+
+.register-banner{
+background: linear-gradient(
+rgba(0,0,0,0.6),
+rgba(0,0,0,0.6)
+),
+url("images/register.jpg");
+
+background-size: cover;
+background-position: center;
+
+padding: 100px 0;
+}
+
+.course-header{
+background: linear-gradient(rgba(0,0,0,0.6),
+rgba(0,0,0,0.6)),
+url("images/banner.jpg");
+
+background-size: cover;
+background-position: center;
+
+padding: 100px 0;
+}
+
+.card{
+transition: 0.4s;
+}
+
+.card:hover{
+transform: translateY(-8px);
+}
+
+.card img{
+height: 220px;
+object-fit: cover;
+}
+
+
+.about-banner{
+background: linear-gradient(
+rgba(0,0,0,0.6),
+rgba(0,0,0,0.6)
+),
+url("images/about.jpg");
+
+background-size: cover;
+background-position: center;
+
+padding: 100px 0;
+}
+
+.faculty-img{
+height: 300px;
+object-fit: cover;
+}
+
+.faculty-img:hover{
+transform: scale(1.03);
+transition: 0.4s;
+}
+
+.contact-banner{
+background: linear-gradient(
+rgba(0,0,0,0.6),
+rgba(0,0,0,0.6)
+),
+url("images/contact.jpg");
+
+background-size: cover;
+background-position: center;
+
+padding: 100px 0;
+}
+
+.map-placeholder{
+height: 250px;
+background-color: #f1f1f1;
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 22px;
+font-weight: bold;
+border-radius: 10px;
+}

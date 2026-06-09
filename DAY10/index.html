@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Storage Demo</title>
+  </head>
+  <body>
+    <h2>Local Storage & Session Storage Demo</h2>
+
+    <form>
+      <label>Name:</label>
+      <input type="text" id="name" /><br /><br />
+
+      <label>Email:</label>
+      <input type="email" id="email" /><br /><br />
+
+      <button type="button" onclick="saveLocal()">Save to Local Storage</button>
+
+      <button type="button" onclick="saveSession()">
+        Save to Session Storage
+      </button>
+
+      <button type="button" onclick="showData()">Show Stored Data</button>
+
+      <button type="button" onclick="clearData()">Clear Data</button>
+    </form>
+
+    <h3 id="output"></h3>
+
+    <script src="index.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>
